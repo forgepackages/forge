@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-FORGE_VERSION = "git+https://github.com/django-forge/forge.git"
+DEFAULT_FORGE_SOURCE = "git+https://github.com/django-forge/forge.git"
 GITIGNORE_CONTENTS = """# Local development files
 /.env
 /.forge
@@ -39,7 +39,7 @@ def event(text, *args, **kwargs):
     print("\033[1m--> " + text + "\033[0m", *args, **kwargs)
 
 
-def main(project_name):
+def main(project_name, forge_source):
     try:
         subprocess.check_output(["poetry", "--version"])
     except FileNotFoundError:
@@ -69,7 +69,7 @@ def main(project_name):
             "--name",
             project_name,
             "--dependency",
-            FORGE_VERSION,
+            forge_source,
         ],
         cwd=project_name,
     )
@@ -109,4 +109,17 @@ def main(project_name):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    if len(sys.argv) < 2 or not sys.argv[1]:
+        print("A package name is required as the argument")
+        sys.exit(1)
+
+    if "--source" in sys.argv:
+        forge_source = sys.argv[sys.argv.index("--source") + 1]
+        sys.argv.remove("--source")
+        sys.argv.remove(forge_source)
+    else:
+        forge_source = DEFAULT_FORGE_SOURCE
+
+    project_name = sys.argv[1]
+
+    main(project_name, forge_source)
