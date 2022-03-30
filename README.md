@@ -31,17 +31,16 @@ curl -sSL https://djangoforge.dev/quickstart.py | python3 - my-project
 Things that come with Forge,
 that you won't get from Django itself:
 
-- Most settings are determined by environment variables
-- Most settings have updated defaults, and you don't need to know about most of them
+- Configure settings with environment variables
+- A much simpler `settings.py`
 - Extraneous files (`manage.py`, `wsgi.py`, `asgi.py`) have been removed unless you need to customize them
-- You start with a custom user model (`users.User`)
-- You start with a "team" model (`teams.Team`)
-- template email
-- base template
-- form templates
-- email login
-- abstract models
-- db commands
+- Start with a custom user model (`users.User`)
+- Start with a "team" model (`teams.Team`)
+- Send emails using Django templates (ex. `templates/email/welcome.html`)
+- A starter `forge_base.html`
+- Default form rendering with Tailwind classes
+- Login in with email address (in addition to usernames)
+- Abstract models for common uses (UUIDs, created_at, updated_at, etc.)
 - Test using [pytest](https://docs.pytest.org/en/latest/) and [pytest-django](https://pytest-django.readthedocs.io/en/latest/)
 - Static files served with [WhiteNoise](http://whitenoise.evans.io/en/stable/)
 
@@ -56,16 +55,16 @@ Lastly, we bring it all together with a `forge` CLI:
 
 ### Local development
 
-- `forge work` - your local development command
+- `forge work` - your local development command (runs `runserver`, Postgres, and Tailwind at the same time)
 - `forge test` - run tests using pytest
 - `forge format` - format app code with black and isort
-- `forge pre-commit`
+- `forge pre-commit` - checks tests and formatting before commits (installed as a git hook automatically)
 - `forge django` - passes commands to Django manage.py (i.e. `forge manage makemigrations`)
 
 ### Deployment
 
-- `forge pre-deploy`
-- `forge serve` - a production
+- `forge pre-deploy` - runs Django system checks before deployment starts
+- `forge serve` - a production gunicorn process
 
 ### Misc.
 
