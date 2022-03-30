@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "build": "tailwindcss -i ./app/static/src/main.css -o ./app/static/dist/main.css",
+    "watch": "tailwindcss -i ./app/static/src/main.css -o ./app/static/dist/main.css --watch"
+  },
+  "dependencies": {
+    "@tailwindcss/forms": "^0.4.0",
+    "postcss": "^8.4.5",
+    "tailwindcss": "^3.0.8"
+  }
+}

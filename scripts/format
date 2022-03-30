@@ -1,0 +1,9 @@
+#!/bin/sh -e
+poetry run black forge --exclude migrations "$@"
+poetry run isort forge --skip    migrations --profile black "$@"
+
+poetry run black tests "$@"
+poetry run isort tests --profile black "$@"
+
+poetry run black quickstart.py "$@"
+poetry run isort quickstart.py --profile black "$@"

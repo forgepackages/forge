@@ -1,0 +1,34 @@
+{% load widget_tweaks %}
+
+{% if errors %}
+<div class="p-4 mb-6 text-sm text-red-900 bg-red-100 border border-red-200 rounded-md">
+    {{ errors }}
+</div>
+{% endif %}
+
+<div class="space-y-6">
+{% for field, errors in fields %}
+    <div{% with classes=field.css_classes %}{% if classes %} class="{{ classes }}"{% endif %}{% endwith %}>
+        {% if field.label %}<label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-800">{{ field.label }}</label>{% endif %}
+        <div class="mt-1">
+            {% if errors %}
+                {{ field|add_class:"block w-full border border-red-600 rounded text-sm" }}
+            {% else %}
+                {{ field|add_class:"block w-full border border-gray-300 rounded text-sm" }}
+            {% endif %}
+        </div>
+        {% if errors %}
+        <div class="mt-2 text-sm text-red-600">
+            {{ errors }}
+        </div>
+        {% endif %}
+        {% if field.help_text %}
+        <div class="mt-2 text-sm text-gray-600">
+            {{ field.help_text|safe }}
+        </div>
+        {% endif %}
+    </div>
+{% endfor %}
+</div>
+
+{% for field in hidden_fields %}{{ field }}{% endfor %}

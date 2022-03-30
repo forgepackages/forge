@@ -1,0 +1,7 @@
+{% if errors|length == 1 %}
+{{ errors.0 }}
+{% elif errors|length > 1 %}
+<ul class="pl-6 list-disc">
+    {% for error in errors %}<li>{{ error }}</li>{% endfor %}
+</ul>
+{% endif %}

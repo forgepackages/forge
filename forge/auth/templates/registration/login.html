@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}Log in{% endblock %}
+
+{% block content %}
+
+<div class="flex flex-col w-full max-w-sm mx-auto my-6 sm:mt-24">
+    <div class="p-8 bg-white rounded shadow">
+        <h1 class="text-3xl">Log in</h1>
+
+        <form method="post" action="{% url 'login' %}" class="mt-8">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {{ form }}
+            <button type="submit" class="block w-full px-4 py-2 mt-8 text-white bg-blue-600 rounded blue:bg-blue-700">Log in</button>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'password_reset' %}" class="text-sm text-blue-600 hover:underline">Forgot your password?</a>
+        </div>
+
+        <hr class="mt-6">
+
+        <div class="mt-6 text-sm text-center">
+            <p class="text-gray-600">Don't have an account?</p>
+            <a href="{% url 'signup' %}" class="inline-block mt-1 text-blue-600 hover:underline">Sign up</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

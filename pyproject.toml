@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "forge"
+version = "0.0.0"
+description = "Quickly build a professional web app using Django."
+authors = ["Dave Gaeddert <dave.gaeddert@dropseed.dev>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://www.djangoforge.dev/"
+documentation = "https://www.djangoforge.dev/docs/"
+repository = "https://github.com/django-forge/forge"
+keywords = ["django", "saas", "forge", "framework"]
+classifiers = [
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 4",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+]
+
+[tool.pytest.ini_options]
+# django_debug_mode = "keep"
+DJANGO_SETTINGS_MODULE = "tests.settings"
+# FAIL_INVALID_TEMPLATE_VARS = true
+# django_find_project = false
+
+[tool.poetry.scripts]
+forge = "forge.cli:cli"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+
+Django = "^4.0"
+django-widget-tweaks = "^1.4.12"
+dj-database-url = "^0.5.0"
+whitenoise = "^6.0.0"
+
+python-dotenv = "^0.19.2"
+psycopg2-binary = "^2.9.2"
+gunicorn = "^20.1.0"
+click = "^8.1.0"
+
+# Techinically dev dependencies...
+# but would have to decalre that in child for that to work
+# Helpful to have ipdb in production shell anyway? Anything wrong with this?
+ipdb = "^0.13.9"
+black = "^22.1.0"
+isort = "^5.10.1"
+pytest = "^7.0.0"
+pytest-django = "^4.5.2"
+
+# Pin honcho to a specific version
+honcho = "1.1.0"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

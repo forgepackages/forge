@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+
+<div class="flex flex-col w-full max-w-md mx-auto my-6 sm:mt-10">
+    <div class="p-8 bg-white rounded shadow">
+        <h1 class="text-3xl">Sign up</h1>
+
+        <form method="post" action="{% url 'signup' %}" class="mt-8">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            {{ form }}
+            <button type="submit" class="block w-full px-4 py-2 mt-8 text-white bg-blue-600 rounded blue:bg-blue-700">Sign up</button>
+        </form>
+
+        <hr class="mt-6">
+
+        <div class="mt-6 text-sm text-center">
+            <p class="text-gray-600">Already have an account?</p>
+            <a href="{% url 'login' %}" class="inline-block mt-1 text-blue-600 hover:underline">Log in</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,28 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    {% block head_scripts %}
+    <link href="{% static 'dist/main.css' %}" rel="stylesheet">
+    {% endblock %}
+  </head>
+  <body class="{% block body_class %}flex flex-col bg-gray-50 min-h-screen{% endblock %}">
+    {% block header %}{% endblock %}
+
+    {% block content_container %}
+    <div class="container flex flex-col flex-grow px-4 pt-4 mx-auto">
+        {% block content %}{% endblock %}
+    </div>
+    {% endblock %}
+
+    {% block footer %}{% endblock %}
+
+    {% block footer_scripts %}{% endblock %}
+
+  </body>
+</html>
