@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-FORGE_VERSION = "../forge"
+FORGE_VERSION = "git+https://github.com/django-forge/forge.git"
 GITIGNORE_CONTENTS = """# Local development files
 /.env
 /.forge
