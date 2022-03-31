@@ -19,12 +19,12 @@ class Forge:
             # (helps with some other scenarios too)
             self.repo_root = None
 
-        if self.repo_root == self.target_path:
-            # If we're at the root of the repo, then presume the app is in "app"
-            self.app_dir = os.path.join(self.repo_root, "app")
+        # If there's a directory named "app" right here,
+        # assume that's the Django project.
+        if os.path.exists(os.path.join(self.target_path, "app")):
+            self.app_dir = os.path.join(self.target_path, "app")
         else:
-            # Otherwise consider the app to be the current directory (app dir can be "tests", or something else)
-            self.app_dir = self.target_path
+            self.app_dir = target_path
 
     def venv_cmd(self, executable, *args, **kwargs):
         return subprocess.run(
