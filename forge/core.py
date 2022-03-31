@@ -5,6 +5,7 @@ import subprocess
 class Forge:
     def __init__(self, target_path=os.getcwd()):
         self.target_path = target_path
+
         self.repo_root = (
             subprocess.check_output(
                 ["git", "rev-parse", "--show-toplevel"], cwd=self.target_path
@@ -13,13 +14,19 @@ class Forge:
             .strip()
         )
         self.venv_bin = os.path.join(self.repo_root, ".venv", "bin")
-        self.app_dir = os.path.join(self.repo_root, "app")
         self.project_slug = os.path.basename(self.repo_root)
+
+        if self.repo_root == self.target_path:
+            # If we're at the root of the repo, then presume the app is in "app"
+            self.app_dir = os.path.join(self.repo_root, "app")
+        else:
+            # Otherwise consider the app to be the current directory (app dir can be "tests", or something else)
+            self.app_dir = self.target_path
 
     def venv_cmd(self, executable, *args, **kwargs):
         return subprocess.run(
             [f"{self.venv_bin}/{executable}"] + list(args),
-            env={**os.environ, "PYTHONPATH": f"{self.repo_root}/app"},
+            env={**os.environ, "PYTHONPATH": self.app_dir},
             check=kwargs.pop("check", False),
             cwd=kwargs.pop("cwd", None),
             **kwargs,

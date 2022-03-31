@@ -151,7 +151,7 @@ def work():
         f"{manage_cmd} dbwait && {manage_cmd} migrate && {manage_cmd} runserver {runserver_port}",
         env={
             **os.environ,
-            "PYTHONPATH": f"{repo_root}/app",
+            "PYTHONPATH": forge.app_dir,
         },
     )
     manager.add_process("tailwind", "npm run watch")
