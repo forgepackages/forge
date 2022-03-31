@@ -49,9 +49,6 @@ def test(pytest_args):
 def pre_deploy():
     forge = Forge()
 
-    click.secho("Collecting static files manually (manage.py may not exist)", bold=True)
-    forge.manage_cmd("collectstatic", "--noinput", check=True)
-
     click.secho("Running Django system checks", bold=True)
     forge.manage_cmd("check", "--deploy", "--fail-level", "WARNING", check=True)
 
