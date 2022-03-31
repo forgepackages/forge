@@ -2,6 +2,9 @@
 /.env
 /.dev
 
+# Publishing
+/dist
+
 # Bundled assets
 **/static/dist
 

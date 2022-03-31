@@ -2,7 +2,7 @@ import os
 import subprocess
 import sys
 
-DEFAULT_FORGE_SOURCE = "git+https://github.com/django-forge/forge.git"
+DEFAULT_FORGE_SOURCE = "forge1"  # TODO change this when name changes
 GITIGNORE_CONTENTS = """# Local development files
 /.env
 /.forge
