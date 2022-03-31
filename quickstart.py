@@ -97,7 +97,7 @@ def main(project_name, forge_source):
 
   \033[1;32mforge work\033[0m
 
-\033[32mOnce that's up and running, you can create a superadmin user with:\033[0m
+\033[32mOnce that's up and running, you can make a new window or tab and create a superadmin user with:\033[0m
 
   \033[1;32mforge django createsuperuser\033[0m
 
