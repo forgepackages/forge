@@ -7,7 +7,9 @@ class Forge:
         try:
             self.repo_root = (
                 subprocess.check_output(
-                    ["git", "rev-parse", "--show-toplevel"], cwd=target_path
+                    ["git", "rev-parse", "--show-toplevel"],
+                    cwd=target_path,
+                    stderr=subprocess.DEVNULL,
                 )
                 .decode("utf-8")
                 .strip()
