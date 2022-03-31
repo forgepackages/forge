@@ -74,5 +74,5 @@ Lastly, we bring it all together with a `forge` CLI:
 
 - [create-react-app](https://create-react-app.dev/)
 - [Bullet Train](https://bullettrain.co/)
-- [Saas Pegasus](https://www.saaspegasus.com/)
+- [SaaS Pegasus](https://www.saaspegasus.com/)
 - [Laravel Spark](https://spark.laravel.com/)
