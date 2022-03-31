@@ -42,6 +42,7 @@ def test(pytest_args):
 @cli.command("pre-deploy")
 def pre_deploy():
     forge = Forge()
+    # collectstatic ourselves?
     click.secho("Running Django system checks", bold=True)
     forge.manage_cmd("check", "--deploy", "--fail-level", "WARNING", check=True)
     click.secho("Running Django migrations", bold=True)
@@ -65,6 +66,11 @@ def serve():
 def pre_commit(ctx, install):
     if install:
         forge = Forge()
+
+        if not forge.repo_root:
+            click.secho("Not in a git repository", fg="red")
+            sys.exit(1)
+
         hook_path = os.path.join(forge.repo_root, ".git", "hooks", "pre-commit")
         if os.path.exists(hook_path):
             print("pre-commit hook already exists")
@@ -128,8 +134,11 @@ def work():
     forge = Forge()
 
     repo_root = forge.repo_root
-    project_slug = forge.project_slug
-    venv_bin = forge.venv_bin
+    if not repo_root:
+        click.secho("Not in a git repository", fg="red")
+        sys.exit(1)
+
+    project_slug = os.path.basename(repo_root)
 
     managepy = forge.user_or_forge_path("manage.py")
 
@@ -139,7 +148,7 @@ def work():
     postgres_port = dj_database_url.parse(dotenv.get("DATABASE_URL"))["PORT"]
     runserver_port = dotenv.get("RUNSERVER_PORT", "8000")
 
-    manage_cmd = f"{venv_bin}/python {managepy}"
+    manage_cmd = f"python {managepy}"
 
     manager = HonchoManager()
     manager.add_process(

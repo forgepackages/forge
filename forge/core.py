@@ -6,15 +6,18 @@ class Forge:
     def __init__(self, target_path=os.getcwd()):
         self.target_path = target_path
 
-        self.repo_root = (
-            subprocess.check_output(
-                ["git", "rev-parse", "--show-toplevel"], cwd=self.target_path
+        try:
+            self.repo_root = (
+                subprocess.check_output(
+                    ["git", "rev-parse", "--show-toplevel"], cwd=self.target_path
+                )
+                .decode("utf-8")
+                .strip()
             )
-            .decode("utf-8")
-            .strip()
-        )
-        self.venv_bin = os.path.join(self.repo_root, ".venv", "bin")
-        self.project_slug = os.path.basename(self.repo_root)
+        except subprocess.CalledProcessError:
+            # On Heroku, there won't be a repo, so we can't require that necessarily
+            # (helps with some other scenarios too)
+            self.repo_root = None
 
         if self.repo_root == self.target_path:
             # If we're at the root of the repo, then presume the app is in "app"
@@ -25,8 +28,12 @@ class Forge:
 
     def venv_cmd(self, executable, *args, **kwargs):
         return subprocess.run(
-            [f"{self.venv_bin}/{executable}"] + list(args),
-            env={**os.environ, "PYTHONPATH": self.app_dir},
+            [executable] + list(args),
+            env={
+                **os.environ,
+                "PYTHONPATH": self.app_dir,
+                "PATH": os.environ["PATH"] + ":.venv/bin",
+            },
             check=kwargs.pop("check", False),
             cwd=kwargs.pop("cwd", None),
             **kwargs,

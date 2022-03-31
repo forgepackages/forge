@@ -1,2 +1,5 @@
 #!/bin/sh -e
 DJANGO_SETTINGS_MODULE=tests.settings poetry run pytest tests "$@"
+
+echo "Make sure forge command works"
+poetry run forge --help
