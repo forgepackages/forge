@@ -4,12 +4,10 @@ import subprocess
 
 class Forge:
     def __init__(self, target_path=os.getcwd()):
-        self.target_path = target_path
-
         try:
             self.repo_root = (
                 subprocess.check_output(
-                    ["git", "rev-parse", "--show-toplevel"], cwd=self.target_path
+                    ["git", "rev-parse", "--show-toplevel"], cwd=target_path
                 )
                 .decode("utf-8")
                 .strip()
@@ -21,8 +19,8 @@ class Forge:
 
         # If there's a directory named "app" right here,
         # assume that's the Django project.
-        if os.path.exists(os.path.join(self.target_path, "app")):
-            self.app_dir = os.path.join(self.target_path, "app")
+        if os.path.exists(os.path.join(target_path, "app")):
+            self.app_dir = os.path.join(target_path, "app")
         else:
             self.app_dir = target_path
 
