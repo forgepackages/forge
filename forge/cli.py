@@ -48,9 +48,13 @@ def test(pytest_args):
 @cli.command("pre-deploy")
 def pre_deploy():
     forge = Forge()
-    # collectstatic ourselves?
+
+    click.secho("Collecting static files manually (manage.py may not exist)", bold=True)
+    forge.manage_cmd("collectstatic", "--noinput", check=True)
+
     click.secho("Running Django system checks", bold=True)
     forge.manage_cmd("check", "--deploy", "--fail-level", "WARNING", check=True)
+
     click.secho("Running Django migrations", bold=True)
     forge.manage_cmd("migrate", check=True)
 
