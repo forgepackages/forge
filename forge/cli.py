@@ -174,6 +174,7 @@ def work():
         env={
             **os.environ,
             "PYTHONPATH": forge.app_dir,
+            "PYTHONUNBUFFERED": "true",
         },
     )
     manager.add_process("tailwind", "npm run watch")
