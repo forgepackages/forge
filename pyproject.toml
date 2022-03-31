@@ -23,12 +23,6 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
 ]
 
-[tool.pytest.ini_options]
-# django_debug_mode = "keep"
-DJANGO_SETTINGS_MODULE = "tests.settings"
-# FAIL_INVALID_TEMPLATE_VARS = true
-# django_find_project = false
-
 [tool.poetry.scripts]
 forge = "forge.cli:cli"
 
