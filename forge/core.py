@@ -32,7 +32,6 @@ class Forge:
             env={
                 **os.environ,
                 **kwargs.pop("env", {}),
-                "PATH": os.environ["PATH"] + ":./.venv/bin",
             },
             check=kwargs.pop("check", False),
             cwd=kwargs.pop("cwd", None),
