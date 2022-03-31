@@ -69,3 +69,10 @@ Lastly, we bring it all together with a `forge` CLI:
 ### Misc.
 
 - `forge init` - used by the quickstart, but can be used by itself too
+
+## Inspired by
+
+- [create-react-app](https://create-react-app.dev/)
+- [Bullet Train](https://bullettrain.co/)
+- [Saas Pegasus](https://www.saaspegasus.com/)
+- [Laravel Spark](https://spark.laravel.com/)
