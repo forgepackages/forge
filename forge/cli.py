@@ -35,7 +35,13 @@ def test(pytest_args):
     forge = Forge()
     load_dotenv()
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
-    result = forge.venv_cmd("pytest", *pytest_args)
+    result = forge.venv_cmd(
+        "pytest",
+        *pytest_args,
+        env={
+            "PYTHONPATH": forge.app_dir,
+        },
+    )
     sys.exit(result.returncode)
 
 
@@ -55,7 +61,13 @@ def serve():
     forge = Forge()
     wsgi = "wsgi" if forge.user_file_exists("wsgi.py") else "forge.default_files.wsgi"
     result = forge.venv_cmd(
-        "gunicorn", f"{wsgi}:application", "--log-file", "-", cwd=forge.app_dir
+        "gunicorn",
+        f"{wsgi}:application",
+        "--log-file",
+        "-",
+        env={
+            "PYTHONPATH": forge.app_dir,
+        },
     )
     sys.exit(result.returncode)
 

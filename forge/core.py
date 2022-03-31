@@ -29,8 +29,8 @@ class Forge:
             [executable] + list(args),
             env={
                 **os.environ,
-                "PYTHONPATH": self.app_dir,
-                "PATH": os.environ["PATH"] + ":.venv/bin",
+                **kwargs.pop("env", {}),
+                "PATH": os.environ["PATH"] + ":./.venv/bin",
             },
             check=kwargs.pop("check", False),
             cwd=kwargs.pop("cwd", None),
@@ -38,6 +38,10 @@ class Forge:
         )
 
     def manage_cmd(self, *args, **kwargs):
+        # Make sure our app is in the PYTHONPATH
+        # when running manage.py commands
+        kwargs["env"] = {"PYTHONPATH": self.app_dir}
+
         return self.venv_cmd(
             "python", self.user_or_forge_path("manage.py"), *args, **kwargs
         )
