@@ -107,6 +107,18 @@ def main(project_name, forge_source):
 """
     )
 
+    if ".venv/bin" not in os.environ["PATH"]:
+        print(
+            """
+\033[1;33m⚠️  Check your PATH!\033[0m \033[33mForge projects use a virtual environment at ".venv" in your repo.
+To make the `forge` command readily available, you'll probably want to add ".venv/bin" to your PATH.
+
+To do this, add the following to your .bashrc or .zshrc file:\033[0m
+
+\033[1;33m  export PATH="./.venv/bin:$PATH"\033[0m
+"""
+        )
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 2 or not sys.argv[1]:
