@@ -59,7 +59,7 @@ Lastly, we bring it all together with a `forge` CLI:
 - `forge test` - run tests using pytest
 - `forge format` - format app code with black and isort
 - `forge pre-commit` - checks tests and formatting before commits (installed as a git hook automatically)
-- `forge django` - passes commands to Django manage.py (i.e. `forge manage makemigrations`)
+- `forge django` - passes commands to Django manage.py (i.e. `forge django makemigrations`)
 
 ### Deployment
 
@@ -68,7 +68,7 @@ Lastly, we bring it all together with a `forge` CLI:
 
 ### Misc.
 
-- `forge init` - used by the quickstart, but can be used by itself too
+- `forge init` - used by the quickstart to create a new project, but can be used by itself too
 
 ## Inspired by
 
