@@ -174,7 +174,25 @@ def work():
 
     manage_cmd = f"python {managepy}"
 
+    django_env = {
+        "PYTHONPATH": forge.app_dir,
+        "PYTHONUNBUFFERED": "true",
+    }
+
     manager = HonchoManager()
+
+    # Meant to work with Forge Pro, but doesn't necessarily have to
+    if "STRIPE_WEBHOOK_PATH" in dotenv:
+        django_env["STRIPE_WEBHOOK_SECRET"] = (
+            subprocess.check_output(["stripe", "listen", "--print-secret"])
+            .decode()
+            .strip()
+        )
+        manager.add_process(
+            "stripe",
+            f"stripe listen --forward-to localhost:{runserver_port}{dotenv['STRIPE_WEBHOOK_PATH']}",
+        )
+
     manager.add_process(
         "postgres",
         f"docker run --name {project_slug}-postgres --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -v {repo_root}/.forge/pgdata:/var/lib/postgresql/data -p {postgres_port}:5432 postgres:{postgres_version} || docker attach {project_slug}-postgres",
@@ -184,8 +202,7 @@ def work():
         f"{manage_cmd} dbwait && {manage_cmd} migrate && {manage_cmd} runserver {runserver_port}",
         env={
             **os.environ,
-            "PYTHONPATH": forge.app_dir,
-            "PYTHONUNBUFFERED": "true",
+            **django_env,
         },
     )
     manager.add_process("tailwind", "npm run watch")
