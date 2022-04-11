@@ -1,7 +1,7 @@
 [tool.poetry]
 
 # Temporary...
-name = "forge1"
+name = "forge"
 packages = [
     { include = "forge" },
 ]
