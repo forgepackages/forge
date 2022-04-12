@@ -209,6 +209,8 @@ def work():
             **django_env,
         },
     )
+
+    # At some point this might be optional (i.e. only if there is a package.json with watch script, or something along those lines)
     manager.add_process("tailwind", "npm run watch")
 
     if "NGROK_SUBDOMAIN" in dotenv:
@@ -223,11 +225,11 @@ def work():
 
 
 @cli.group()
-def setup():
+def quickstart():
     pass
 
 
-@setup.command()
+@quickstart.command()
 @click.pass_context
 def template(ctx):
     """Forge is already installed, and presumably in a git repo."""
@@ -266,7 +268,7 @@ def template(ctx):
     Forge().manage_cmd("makemigrations", stderr=subprocess.DEVNULL)
 
 
-@setup.command()
+@quickstart.command()
 @click.option("--postgres-tier", default="hobby-dev")
 @click.option("--redis-tier", default="hobby-dev")
 @click.option("--team", default="")
