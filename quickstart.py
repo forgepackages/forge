@@ -83,7 +83,7 @@ def main(project_name, forge_source):
 
     print()
     subprocess.check_call(
-        ["poetry", "run", "forge", "setup", "template"],
+        ["poetry", "run", "forge", "quickstart", "template"],
         cwd=project_name,
     )
 
