@@ -374,11 +374,13 @@ def tailwind_compile(watch, minify):
 
     # These paths won't work on Windows, I assume
     args.append("--content")
-    args.append("./app/**/*.{html,js}")
-
-    args.append("--content")
     args.append(
-        "./{.venv,.heroku/python}/lib/python*/site-packages/forge*/**/*.{html,js}"
+        ",".join(
+            [
+                "./app/**/*.{html,js}",
+                "./{.venv,.heroku/python}/lib/python*/site-packages/forge*/**/*.{html,js}",
+            ]
+        )
     )
 
     if watch:
