@@ -4,6 +4,9 @@ import subprocess
 
 class Forge:
     def __init__(self, target_path=os.getcwd()):
+        # Where local psql data goes, tailwind
+        self.forge_tmp_dir = os.path.join(target_path, ".forge")
+
         try:
             self.repo_root = (
                 subprocess.check_output(
@@ -14,6 +17,7 @@ class Forge:
                 .decode("utf-8")
                 .strip()
             )
+            self.forge_tmp_dir = os.path.join(self.repo_root, ".forge")
         except subprocess.CalledProcessError:
             # On Heroku, there won't be a repo, so we can't require that necessarily
             # (helps with some other scenarios too)
@@ -26,12 +30,7 @@ class Forge:
         else:
             self.app_dir = target_path
 
-        # Where local psql data goes, tailwind
-        if self.repo_root:
-            self.forge_tmp_dir = os.path.join(self.repo_root, ".forge")
-        else:
-            self.forge_tmp_dir = os.path.join(self.app_dir, ".forge")
-
+        # Make sure the tmp dir exists
         if not os.path.exists(self.forge_tmp_dir):
             os.mkdir(self.forge_tmp_dir)
 
