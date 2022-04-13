@@ -36,7 +36,7 @@ def format_cmd(check):
         check=True,
     )
 
-    isort_args = ["--skip", "migrations", "--skip", ".venv"]
+    isort_args = ["--skip", "migrations", "--skip", ".venv", "--profile", "black"]
     if check:
         isort_args.append("--check")
     forge.venv_cmd("isort", *isort_args, forge.app_dir, check=True)
