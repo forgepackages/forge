@@ -1,6 +1,7 @@
 # Local development files
 /.env
 /.dev
+/.forge
 
 # Publishing
 /dist

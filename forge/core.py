@@ -26,6 +26,15 @@ class Forge:
         else:
             self.app_dir = target_path
 
+        # Where local psql data goes, tailwind
+        if self.repo_root:
+            self.forge_tmp_dir = os.path.join(self.repo_root, ".forge")
+        else:
+            self.forge_tmp_dir = os.path.join(self.app_dir, ".forge")
+
+        if not os.path.exists(self.forge_tmp_dir):
+            os.mkdir(self.forge_tmp_dir)
+
     def venv_cmd(self, executable, *args, **kwargs):
         return subprocess.run(
             [executable] + list(args),

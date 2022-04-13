@@ -4,6 +4,7 @@ import platform
 import shutil
 import subprocess
 import sys
+from gc import is_finalized
 
 import click
 import dj_database_url
@@ -12,6 +13,7 @@ from dotenv import dotenv_values, load_dotenv
 from honcho.manager import Manager as HonchoManager
 
 from . import Forge
+from .tailwind import Tailwind
 
 
 @click.group()
@@ -199,7 +201,7 @@ def work():
 
     manager.add_process(
         "postgres",
-        f"docker run --name {project_slug}-postgres --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -v {repo_root}/.forge/pgdata:/var/lib/postgresql/data -p {postgres_port}:5432 postgres:{postgres_version} || docker attach {project_slug}-postgres",
+        f"docker run --name {project_slug}-postgres --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -v {forge.forge_tmp_dir}/pgdata:/var/lib/postgresql/data -p {postgres_port}:5432 postgres:{postgres_version} || docker attach {project_slug}-postgres",
     )
     manager.add_process(
         "django",
@@ -210,8 +212,7 @@ def work():
         },
     )
 
-    # At some point this might be optional (i.e. only if there is a package.json with watch script, or something along those lines)
-    manager.add_process("tailwind", "npm run watch")
+    manager.add_process("tailwind", "forge tailwind compile --watch")
 
     if "NGROK_SUBDOMAIN" in dotenv:
         manager.add_process(
@@ -255,10 +256,6 @@ def template(ctx):
             shutil.copy(f, destination)
         else:
             shutil.copytree(f, os.path.join(destination, os.path.basename(f)))
-
-    # package.json comes with template, not quickstart
-    event("Installing npm dependencies")
-    subprocess.check_call(["npm", "install"])
 
     event("Installing pre-commit hook")
     ctx.invoke(pre_commit, install=True)
@@ -304,7 +301,6 @@ def heroku(ctx, heroku_app_name, postgres_tier, redis_tier, team):
             "https://github.com/django-forge/heroku-buildpack-forge.git",
         ]
     )
-    subprocess.check_call(["heroku", "buildpacks:add", "heroku/nodejs"])
     subprocess.check_call(
         [
             "heroku",
@@ -342,6 +338,65 @@ def heroku(ctx, heroku_app_name, postgres_tier, redis_tier, team):
         f"You're all set! Connect your GitHub repo to the Heroku app at:\n\n  https://dashboard.heroku.com/apps/{heroku_app_name}/deploy/github",
         fg="green",
     )
+
+
+@cli.group()
+def tailwind():
+    pass
+
+
+@tailwind.command("compile")
+@click.option("--watch", is_flag=True)
+@click.option("--minify", is_flag=True)
+def tailwind_compile(watch, minify):
+    forge = Forge()
+    tailwind = Tailwind(forge.forge_tmp_dir)
+
+    if not tailwind.is_installed() or tailwind.needs_update():
+        version_to_install = tailwind.get_version_from_config()
+        if version_to_install:
+            click.secho(
+                f"Installing Tailwind standalone {version_to_install}...", bold=True
+            )
+            version = tailwind.install(version_to_install)
+        else:
+            click.secho("Installing Tailwind standalone...", bold=True)
+            version = tailwind.install()
+        click.secho(f"Tailwind {version} installed", fg="green")
+
+    args = [tailwind.standalone_path]
+
+    args.append("-i")
+    args.append(os.path.join(forge.app_dir, "static", "src", "tailwind.css"))
+
+    args.append("-o")
+    args.append(os.path.join(forge.app_dir, "static", "dist", "tailwind.css"))
+
+    # These paths won't work on Windows, I assume
+    args.append("--content")
+    args.append("./app/**/*.{html,js}")
+
+    args.append("--content")
+    args.append(
+        "./{.venv,.heroku/python}/lib/python*/site-packages/forge*/**/*.{html,js}"
+    )
+
+    if watch:
+        args.append("--watch")
+
+    if minify:
+        args.append("--minify")
+
+    subprocess.check_call(args, cwd=os.path.dirname(forge.app_dir))
+
+
+@tailwind.command("update")
+def tailwind_update():
+    forge = Forge()
+    tailwind = Tailwind(forge.forge_tmp_dir)
+    click.secho("Installing Tailwind standalone...", bold=True)
+    version = tailwind.install()
+    click.secho(f"Tailwind {version} installed", fg="green")
 
 
 if __name__ == "__main__":
