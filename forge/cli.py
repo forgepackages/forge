@@ -26,18 +26,20 @@ def cli():
 def format_cmd(check):
     forge = Forge()
     # Make sure .venv isn't formatted on accident
+    black_args = ["--exclude", "migrations", "--exclude", ".venv"]
+    if check:
+        black_args.append("--check")
     forge.venv_cmd(
         "black",
-        "--exclude",
-        "migrations",
-        "--exclude",
-        ".venv",
+        *black_args,
         forge.app_dir,
-        check=check,
+        check=True,
     )
-    forge.venv_cmd(
-        "isort", "--skip", "migrations", "--skip", ".venv", forge.app_dir, check=check
-    )
+
+    isort_args = ["--skip", "migrations", "--skip", ".venv"]
+    if check:
+        isort_args.append("--check")
+    forge.venv_cmd("isort", *isort_args, forge.app_dir, check=True)
 
 
 @cli.command(
