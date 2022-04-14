@@ -63,7 +63,9 @@ def test(pytest_args):
             "PYTHONPATH": forge.app_dir,
         },
     )
-    sys.exit(result.returncode)
+    if result.returncode:
+        # Can be invoked by pre-commit, so only exit if it fails
+        sys.exit(result.returncode)
 
 
 @cli.command("pre-deploy")
@@ -98,9 +100,9 @@ def serve():
 @click.option("--install", is_flag=True)
 @click.pass_context
 def pre_commit(ctx, install):
-    if install:
-        forge = Forge()
+    forge = Forge()
 
+    if install:
         if not forge.repo_root:
             click.secho("Not in a git repository", fg="red")
             sys.exit(1)
@@ -117,38 +119,22 @@ forge pre-commit"""
             os.chmod(hook_path, 0o755)
             print("pre-commit hook installed")
     else:
-
-        # TODO implement the rest of these old pre-commit steps
-        """#!/bin/sh -e
-
-        BOLD="\033[1m"
-        NORMAL="\033[0m"
-
-        echo "${BOLD}Checking formatting${NORMAL}"
-        ./scripts/format --check
-
-        echo ""
-        echo "${BOLD}Checking database connection${NORMAL}"
-        if ! ./scripts/manage dbconnected; then
-            echo ""
-            echo "${BOLD}Running Django checks (without database)${NORMAL}"
-            ./scripts/manage check
-        else
-            echo ""
-            echo "${BOLD}Running Django checks${NORMAL}"
-            ./scripts/manage check --database default
-
-            echo ""
-            echo "${BOLD}Checking Django migrations${NORMAL}"
-            ./scripts/manage migrate --check
-        fi
-
-        echo ""
-        echo "${BOLD}Running tests${NORMAL}"
-        ./scripts/test"""
-
         click.secho("Checking formatting", bold=True)
         ctx.invoke(format_cmd, check=True)
+
+        click.secho("Checking database connection", bold=True)
+        if forge.manage_cmd("dbconnected").returncode:
+            click.secho("Running Django checks (without database)", bold=True)
+            forge.manage_cmd("check", check=True)
+        else:
+            click.secho("Running Django checks", bold=True)
+            forge.manage_cmd("check", "--database", "default", check=True)
+
+            click.secho("Checking Django migrations", bold=True)
+            forge.manage_cmd("migrate", "--check", check=True)
+
+        click.secho("Running tests", bold=True)
+        ctx.invoke(test)
 
 
 @cli.command(
@@ -159,7 +145,8 @@ forge pre-commit"""
 @click.argument("managepy_args", nargs=-1, type=click.UNPROCESSED)
 def django(managepy_args):
     result = Forge().manage_cmd(*managepy_args)
-    sys.exit(result.returncode)
+    if result.returncode:
+        sys.exit(result.returncode)
 
 
 @cli.command()

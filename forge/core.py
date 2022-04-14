@@ -45,6 +45,7 @@ class Forge:
             cwd=kwargs.pop("cwd", None),
             **kwargs,
         )
+        # TODO a custom check usage that doesn't do a full stacktrace
 
     def manage_cmd(self, *args, **kwargs):
         # Make sure our app is in the PYTHONPATH
