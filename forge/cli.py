@@ -169,6 +169,7 @@ def work():
 
     postgres_version = dotenv.get("POSTGRES_VERSION", "10.4")
     postgres_port = dj_database_url.parse(dotenv.get("DATABASE_URL"))["PORT"]
+    # TODO get postgres user from here
     runserver_port = dotenv.get("RUNSERVER_PORT", "8000")
 
     manage_cmd = f"python {managepy}"
@@ -366,7 +367,8 @@ def tailwind_compile(watch, minify):
     args.append("-o")
     args.append(os.path.join(forge.app_dir, "static", "dist", "tailwind.css"))
 
-    # These paths won't work on Windows, I assume
+    # These paths should actually work on Windows too
+    # https://github.com/mrmlnc/fast-glob#how-to-write-patterns-on-windows
     args.append("--content")
     args.append(
         ",".join(
