@@ -25,21 +25,25 @@ def cli():
 @click.option("--check", is_flag=True)
 def format_cmd(check):
     forge = Forge()
-    # Make sure .venv isn't formatted on accident
-    black_args = ["--exclude", "migrations", "--exclude", ".venv"]
+
+    # Make relative for nicer output
+    target = os.path.relpath(forge.app_dir)
+
+    black_args = ["--extend-exclude", "migrations"]
     if check:
         black_args.append("--check")
+    black_args.append(target)
     forge.venv_cmd(
         "black",
         *black_args,
-        forge.app_dir,
         check=True,
     )
 
-    isort_args = ["--skip", "migrations", "--skip", ".venv", "--profile", "black"]
+    isort_args = ["--extend-skip", "migrations", "--profile", "black"]
     if check:
         isort_args.append("--check")
-    forge.venv_cmd("isort", *isort_args, forge.app_dir, check=True)
+    isort_args.append(target)
+    forge.venv_cmd("isort", *isort_args, check=True)
 
 
 @cli.command(
