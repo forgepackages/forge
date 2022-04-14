@@ -210,7 +210,7 @@ def work():
     if "NGROK_SUBDOMAIN" in dotenv:
         manager.add_process(
             "ngrok",
-            "ngrok http {runserver_port} --subdomain {dotenv['NGROK_SUBDOMAIN']}",
+            f"ngrok http {runserver_port} --subdomain {dotenv['NGROK_SUBDOMAIN']}",
         )
 
     manager.loop()
