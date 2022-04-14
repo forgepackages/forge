@@ -39,7 +39,8 @@ def format_cmd(check):
         check=True,
     )
 
-    isort_args = ["--extend-skip", "migrations", "--profile", "black"]
+    # Include --src so internal imports are recognized correctly
+    isort_args = ["--extend-skip", "migrations", "--profile", "black", "--src", target]
     if check:
         isort_args.append("--check")
     isort_args.append(target)
