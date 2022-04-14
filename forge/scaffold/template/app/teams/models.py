@@ -1,5 +1,4 @@
 from django.db import models
-
 from forge.models import TimestampModel, UUIDModel
 
 
