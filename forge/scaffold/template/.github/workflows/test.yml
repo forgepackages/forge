@@ -25,7 +25,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install --upgrade pip poetry
-        ./scripts/install
+        POETRY_VIRTUALENVS_IN_PROJECT=true poetry install
         echo ".venv/bin" >> $GITHUB_PATH
 
     - name: Test
