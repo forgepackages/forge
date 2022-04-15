@@ -161,6 +161,10 @@ def work():
         click.secho("Not in a git repository", fg="red")
         sys.exit(1)
 
+    if forge.manage_cmd("check").returncode:
+        click.secho("Django check failed!", fg="red")
+        sys.exit(1)
+
     project_slug = os.path.basename(repo_root)
 
     managepy = forge.user_or_forge_path("manage.py")
