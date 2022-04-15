@@ -1,10 +1,10 @@
 import glob
+import json
 import os
 import platform
 import shutil
 import subprocess
 import sys
-from gc import is_finalized
 
 import click
 import dj_database_url
@@ -218,6 +218,17 @@ def work():
             "ngrok",
             f"ngrok http {runserver_port} --log stdout --subdomain {dotenv['NGROK_SUBDOMAIN']}",
         )
+
+    # Run package.json "watch" script automatically
+    package_json = os.path.join(repo_root, "package.json")
+    if os.path.exists(package_json):
+        with open(package_json) as f:
+            package_json_data = json.load(f)
+        if "watch" in package_json_data.get("scripts", {}):
+            manager.add_process(
+                "npm watch",
+                "npm run watch",
+            )
 
     manager.loop()
 
