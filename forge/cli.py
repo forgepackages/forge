@@ -171,7 +171,7 @@ def work():
 
     dotenv = dotenv_values(os.path.join(repo_root, ".env"))
 
-    postgres_version = dotenv.get("POSTGRES_VERSION", "10.4")
+    postgres_version = dotenv.get("POSTGRES_VERSION", "13")
     postgres_port = dj_database_url.parse(dotenv.get("DATABASE_URL"))["PORT"]
     # TODO get postgres user from here
     runserver_port = dotenv.get("RUNSERVER_PORT", "8000")
