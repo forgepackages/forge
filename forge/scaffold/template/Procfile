@@ -1,2 +1,0 @@
-web: forge serve
-release: forge pre-deploy
