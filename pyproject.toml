@@ -45,6 +45,10 @@ psycopg2-binary = "^2.9.2"
 gunicorn = "^20.1.0"
 click = "^8.1.0"
 
+# For Redis caching (the suggested default)
+redis = "^4.2.2"
+hiredis = "^2.0.0"
+
 # Techinically dev dependencies...
 # but would have to decalre that in child for that to work
 # Helpful to have ipdb in production shell anyway? Anything wrong with this?
