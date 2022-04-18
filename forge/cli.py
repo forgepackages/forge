@@ -165,15 +165,10 @@ def work():
         click.secho("Django check failed!", fg="red")
         sys.exit(1)
 
-    project_slug = os.path.basename(repo_root)
-
     managepy = forge.user_or_forge_path("manage.py")
 
     dotenv = dotenv_values(os.path.join(repo_root, ".env"))
 
-    postgres_version = dotenv.get("POSTGRES_VERSION", "13")
-    postgres_port = dj_database_url.parse(dotenv.get("DATABASE_URL"))["PORT"]
-    # TODO get postgres user from here
     runserver_port = dotenv.get("RUNSERVER_PORT", "8000")
 
     manage_cmd = f"python {managepy}"
@@ -198,10 +193,8 @@ def work():
             f"stripe listen --forward-to localhost:{runserver_port}{dotenv['STRIPE_WEBHOOK_PATH']}",
         )
 
-    manager.add_process(
-        "postgres",
-        f"docker run --name {project_slug}-postgres --rm -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -v {forge.forge_tmp_dir}/pgdata:/var/lib/postgresql/data -p {postgres_port}:5432 postgres:{postgres_version} || docker attach {project_slug}-postgres",
-    )
+    manager.add_process("postgres", "forge db run")
+
     manager.add_process(
         "django",
         f"{manage_cmd} dbwait && {manage_cmd} migrate && {manage_cmd} runserver {runserver_port}",
@@ -233,6 +226,45 @@ def work():
     manager.loop()
 
     sys.exit(manager.returncode)
+
+
+@cli.group()
+def db():
+    pass
+
+
+@db.command("run")
+def db_run():
+    forge = Forge()
+
+    project_slug = os.path.basename(forge.repo_root)
+
+    dotenv = dotenv_values(os.path.join(forge.repo_root, ".env"))
+
+    # TODO get postgres user from here too
+    postgres_version = dotenv.get("POSTGRES_VERSION", "13")
+    postgres_port = dj_database_url.parse(dotenv.get("DATABASE_URL"))["PORT"]
+
+    subprocess.check_call(
+        [
+            "docker",
+            "run",
+            "--name",
+            f"{project_slug}-postgres",
+            "--rm",
+            "-e",
+            "POSTGRES_USER=postgres",
+            "-e",
+            "POSTGRES_PASSWORD=postgres",
+            "-v",
+            f"{forge.forge_tmp_dir}/pgdata:/var/lib/postgresql/data",
+            "-p",
+            f"{postgres_port}:5432",
+            f"postgres:{postgres_version}",
+            # "|| docker attach {project_slug}-postgres"
+        ],
+        cwd=forge.repo_root,
+    )
 
 
 @cli.group()
