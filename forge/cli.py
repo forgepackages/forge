@@ -161,7 +161,19 @@ def work():
         click.secho("Not in a git repository", fg="red")
         sys.exit(1)
 
-    if forge.manage_cmd("check").returncode:
+    django_env = {
+        "PYTHONPATH": forge.app_dir,
+        "PYTHONUNBUFFERED": "true",
+    }
+    if "STRIPE_WEBHOOK_PATH" in dotenv:
+        # TODO check stripe command available, need to do the same with docker
+        django_env["STRIPE_WEBHOOK_SECRET"] = (
+            subprocess.check_output(["stripe", "listen", "--print-secret"])
+            .decode()
+            .strip()
+        )
+
+    if forge.manage_cmd("check", env=django_env).returncode:
         click.secho("Django check failed!", fg="red")
         sys.exit(1)
 
@@ -173,21 +185,10 @@ def work():
 
     manage_cmd = f"python {managepy}"
 
-    django_env = {
-        "PYTHONPATH": forge.app_dir,
-        "PYTHONUNBUFFERED": "true",
-    }
-
     manager = HonchoManager()
 
     # Meant to work with Forge Pro, but doesn't necessarily have to
     if "STRIPE_WEBHOOK_PATH" in dotenv:
-        # TODO check stripe command available, need to do the same with docker
-        django_env["STRIPE_WEBHOOK_SECRET"] = (
-            subprocess.check_output(["stripe", "listen", "--print-secret"])
-            .decode()
-            .strip()
-        )
         manager.add_process(
             "stripe",
             f"stripe listen --forward-to localhost:{runserver_port}{dotenv['STRIPE_WEBHOOK_PATH']}",
