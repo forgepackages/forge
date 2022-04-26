@@ -10,6 +10,7 @@ import click
 import dj_database_url
 from django.core.management.utils import get_random_secret_key
 from dotenv import dotenv_values, load_dotenv
+from dotenv import set_key as dotenv_set_key
 from honcho.manager import Manager as HonchoManager
 
 from . import Forge
@@ -161,16 +162,26 @@ def work():
         click.secho("Not in a git repository", fg="red")
         sys.exit(1)
 
+    dotenv_path = os.path.join(repo_root, ".env")
+    dotenv = dotenv_values(dotenv_path)
+
     django_env = {
         "PYTHONPATH": forge.app_dir,
         "PYTHONUNBUFFERED": "true",
     }
-    if "STRIPE_WEBHOOK_PATH" in dotenv:
+    if "STRIPE_WEBHOOK_PATH" in dotenv and "STRIPE_WEBHOOK_SECRET" not in dotenv:
         # TODO check stripe command available, need to do the same with docker
-        django_env["STRIPE_WEBHOOK_SECRET"] = (
+        stripe_webhook_secret = (
             subprocess.check_output(["stripe", "listen", "--print-secret"])
             .decode()
             .strip()
+        )
+        click.secho("Adding automatic STRIPE_WEBHOOK_SECRET to .env", fg="green")
+        dotenv_set_key(
+            dotenv_path,
+            "STRIPE_WEBHOOK_SECRET",
+            stripe_webhook_secret,
+            quote_mode="auto",
         )
 
     if forge.manage_cmd("check", env=django_env).returncode:
@@ -178,8 +189,6 @@ def work():
         sys.exit(1)
 
     managepy = forge.user_or_forge_path("manage.py")
-
-    dotenv = dotenv_values(os.path.join(repo_root, ".env"))
 
     runserver_port = dotenv.get("RUNSERVER_PORT", "8000")
 
