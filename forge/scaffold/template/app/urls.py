@@ -13,7 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import django.views.defaults
 import views
+from django.conf import settings
 from django.contrib import admin
 from django.urls import include, path
 from users.views import MyAccountView, SignupView
@@ -26,3 +28,27 @@ urlpatterns = [
     path("teams/", include("teams.urls")),
     path("", views.HomeView.as_view(), name="home"),
 ]
+
+# Make the error pages viewable in development
+if settings.DEBUG:
+    urlpatterns += [
+        path(
+            "400/",
+            lambda request: django.views.defaults.bad_request(
+                request, Exception("400 error")
+            ),
+        ),
+        path(
+            "403/",
+            lambda request: django.views.defaults.permission_denied(
+                request, Exception("403 error")
+            ),
+        ),
+        path(
+            "404/",
+            lambda request: django.views.defaults.page_not_found(
+                request, Exception("404 error")
+            ),
+        ),
+        path("500/", django.views.defaults.server_error),
+    ]
