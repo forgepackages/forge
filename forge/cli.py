@@ -9,7 +9,7 @@ import sys
 import click
 import dj_database_url
 from django.core.management.utils import get_random_secret_key
-from dotenv import dotenv_values, load_dotenv
+from dotenv import load_dotenv
 from dotenv import set_key as dotenv_set_key
 from honcho.manager import Manager as HonchoManager
 
@@ -163,13 +163,16 @@ def work():
         sys.exit(1)
 
     dotenv_path = os.path.join(repo_root, ".env")
-    dotenv = dotenv_values(dotenv_path)
+    load_dotenv(dotenv_path)
 
     django_env = {
         "PYTHONPATH": forge.app_dir,
         "PYTHONUNBUFFERED": "true",
     }
-    if "STRIPE_WEBHOOK_PATH" in dotenv and "STRIPE_WEBHOOK_SECRET" not in dotenv:
+    if (
+        "STRIPE_WEBHOOK_PATH" in os.environ
+        and "STRIPE_WEBHOOK_SECRET" not in os.environ
+    ):
         # TODO check stripe command available, need to do the same with docker
         stripe_webhook_secret = (
             subprocess.check_output(["stripe", "listen", "--print-secret"])
@@ -183,6 +186,7 @@ def work():
             stripe_webhook_secret,
             quote_mode="auto",
         )
+        os.environ["STRIPE_WEBHOOK_SECRET"] = stripe_webhook_secret
 
     if forge.manage_cmd("check", env=django_env).returncode:
         click.secho("Django check failed!", fg="red")
@@ -190,17 +194,17 @@ def work():
 
     managepy = forge.user_or_forge_path("manage.py")
 
-    runserver_port = dotenv.get("RUNSERVER_PORT", "8000")
+    runserver_port = os.environ.get("RUNSERVER_PORT", "8000")
 
     manage_cmd = f"python {managepy}"
 
     manager = HonchoManager()
 
     # Meant to work with Forge Pro, but doesn't necessarily have to
-    if "STRIPE_WEBHOOK_PATH" in dotenv:
+    if "STRIPE_WEBHOOK_PATH" in os.environ:
         manager.add_process(
             "stripe",
-            f"stripe listen --forward-to localhost:{runserver_port}{dotenv['STRIPE_WEBHOOK_PATH']}",
+            f"stripe listen --forward-to localhost:{runserver_port}{os.environ['STRIPE_WEBHOOK_PATH']}",
         )
 
     manager.add_process("postgres", "forge db run")
@@ -216,10 +220,10 @@ def work():
 
     manager.add_process("tailwind", "forge tailwind compile --watch")
 
-    if "NGROK_SUBDOMAIN" in dotenv:
+    if "NGROK_SUBDOMAIN" in os.environ:
         manager.add_process(
             "ngrok",
-            f"ngrok http {runserver_port} --log stdout --subdomain {dotenv['NGROK_SUBDOMAIN']}",
+            f"ngrok http {runserver_port} --log stdout --subdomain {os.environ['NGROK_SUBDOMAIN']}",
         )
 
     # Run package.json "watch" script automatically
@@ -249,11 +253,11 @@ def db_run():
 
     project_slug = os.path.basename(forge.repo_root)
 
-    dotenv = dotenv_values(os.path.join(forge.repo_root, ".env"))
+    load_dotenv(os.path.join(forge.repo_root, ".env"))
 
     # TODO get postgres user from here too
-    postgres_version = dotenv.get("POSTGRES_VERSION", "13")
-    postgres_port = dj_database_url.parse(dotenv.get("DATABASE_URL"))["PORT"]
+    postgres_version = os.environ.get("POSTGRES_VERSION", "13")
+    postgres_port = dj_database_url.parse(os.environ.get("DATABASE_URL"))["PORT"]
 
     subprocess.check_call(
         [
