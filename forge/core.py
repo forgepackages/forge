@@ -35,17 +35,24 @@ class Forge:
             os.mkdir(self.forge_tmp_dir)
 
     def venv_cmd(self, executable, *args, **kwargs):
-        return subprocess.run(
+        # implement our own check without a stacktrace
+        check = kwargs.pop("check", False)
+
+        result = subprocess.run(
             [executable] + list(args),
             env={
                 **os.environ,
                 **kwargs.pop("env", {}),
             },
-            check=kwargs.pop("check", False),
+            check=False,
             cwd=kwargs.pop("cwd", None),
             **kwargs,
         )
-        # TODO a custom check usage that doesn't do a full stacktrace
+
+        if check and result.returncode != 0:
+            exit(result.returncode)
+
+        return result
 
     def manage_cmd(self, *args, **kwargs):
         # Make sure our app is in the PYTHONPATH
