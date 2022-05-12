@@ -19,7 +19,7 @@ BASE_DIR = Path(_forge.app_dir)
 SECRET_KEY = environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = environ.get("DEBUG", False)
+DEBUG = environ.get("DEBUG", "false").lower() in ("true", "1", "yes")
 
 ALLOWED_HOSTS = ["*"]
 
