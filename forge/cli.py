@@ -336,6 +336,10 @@ def db_pull(ctx, backup, anonymize):
 
     forge.db_container.start()
 
+    heroku_app_name = json.loads(
+        subprocess.check_output(["heroku", "apps:info", "--json"]).decode().strip()
+    )["app"]["name"]
+
     # TODO way to check if container ready?
 
     backup_name = backup_lines[-1].split()[0]
@@ -347,12 +351,16 @@ def db_pull(ctx, backup, anonymize):
     )
 
     if not anonymize:
-        dump_path = os.path.join(forge.forge_tmp_dir, "heroku.dump")
+        dump_path = os.path.join(forge.forge_tmp_dir, f"{heroku_app_name}.dump")
         dump_compressed = True
-        click.secho("Downloading Heroku backup to .forge/latest.dump", bold=True)
+        click.secho(
+            f"Downloading Heroku backup to {os.path.relpath(dump_path)}", bold=True
+        )
         subprocess.check_call(["curl", "-o", dump_path, backup_url])
     else:
-        dump_path = os.path.join(forge.forge_tmp_dir, "heroku_anonymized.dump")
+        dump_path = os.path.join(
+            forge.forge_tmp_dir, f"{heroku_app_name}.anonymized.dump"
+        )
         dump_compressed = False
         click.secho(
             f"Anonymizing Heroku backup and saving to {os.path.relpath(dump_path)}",
