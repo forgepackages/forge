@@ -152,6 +152,16 @@ def django(managepy_args):
 
 
 @cli.command()
+@click.option("--heroku", is_flag=True)
+def shell(heroku):
+    """Open a Python shell"""
+    if heroku:
+        subprocess.run(["heroku", "run", "python app/manage.py shell"])
+    else:
+        Forge().manage_cmd("shell")
+
+
+@cli.command()
 def work():
     # TODO check docker is available first
 
