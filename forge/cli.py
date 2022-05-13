@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 import click
-import dj_database_url
+import requests
 from django.core.management.utils import get_random_secret_key
 from dotenv import set_key as dotenv_set_key
 from honcho.manager import Manager as HonchoManager
@@ -214,7 +214,10 @@ def work():
             f"stripe listen --forward-to localhost:{runserver_port}{os.environ['STRIPE_WEBHOOK_PATH']}",
         )
 
-    manager.add_process("postgres", "forge db run")
+    # So this can work in development too...
+    forge_executable = os.path.join(os.path.dirname(sys.executable), "forge")
+
+    manager.add_process("postgres", f"{forge_executable} db start --logs")
 
     manager.add_process(
         "django",
@@ -225,7 +228,7 @@ def work():
         },
     )
 
-    manager.add_process("tailwind", "forge tailwind compile --watch")
+    manager.add_process("tailwind", f"{forge_executable} tailwind compile --watch")
 
     if "NGROK_SUBDOMAIN" in os.environ:
         manager.add_process(
@@ -254,38 +257,123 @@ def db():
     pass
 
 
-@db.command("run")
-def db_run():
+@db.command("start")
+@click.option("--logs", is_flag=True)
+def db_start(logs):
+    forge = Forge()
+    forge.db_container.start()
+
+    if logs:
+        forge.db_container.logs()
+
+
+@db.command("stop")
+def db_stop():
+    forge = Forge()
+    forge.db_container.stop()
+    click.secho("Database stopped", fg="green")
+
+
+@db.command("pull")
+@click.option("--backup", is_flag=True)
+@click.option(
+    "--anonymize",
+    type=bool,
+    default=None,
+    help="Anonymize data during import, enabled by default if anonymize installed",
+)
+@click.pass_context
+def db_pull(ctx, backup, anonymize):
     forge = Forge()
 
-    project_slug = os.path.basename(forge.repo_root)
-
-    load_dotenv(os.path.join(forge.repo_root, ".env"))
-
-    # TODO get postgres user from here too
-    postgres_version = os.environ.get("POSTGRES_VERSION", "13")
-    postgres_port = dj_database_url.parse(os.environ.get("DATABASE_URL"))["PORT"]
-
-    subprocess.check_call(
-        [
-            "docker",
-            "run",
-            "--name",
-            f"{project_slug}-postgres",
-            "--rm",
-            "-e",
-            "POSTGRES_USER=postgres",
-            "-e",
-            "POSTGRES_PASSWORD=postgres",
-            "-v",
-            f"{forge.forge_tmp_dir}/pgdata:/var/lib/postgresql/data",
-            "-p",
-            f"{postgres_port}:5432",
-            f"postgres:{postgres_version}",
-            # "|| docker attach {project_slug}-postgres"
-        ],
-        cwd=forge.repo_root,
+    anonymize_installed = (
+        forge.manage_cmd(
+            "anonymizedump",
+            "--help",
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        ).returncode
+        == 0
     )
+    if anonymize and not anonymize_installed:
+        raise Exception("Anonymize is not installed")
+
+    if anonymize_installed and anonymize is None:
+        click.secho("Enabling anonymize by default", fg="yellow")
+        anonymize = True
+
+    if backup:
+        event("Creating a backup using heroku pg:backups:capture")
+        subprocess.check_call(["heroku", "pg:backups:capture"])
+
+    backup_lines = (
+        subprocess.check_output(["heroku", "pg:backups"]).decode().splitlines()[1:4]
+    )
+    if backup_lines[-1].startswith("No backups"):
+        click.Abort("No backups found. Run with --backup to make a new backup now.")
+
+    click.secho("Using latest Heroku backup", bold=True)
+    for line in backup_lines:
+        click.echo(line)
+    click.echo()
+
+    forge.db_container.start()
+
+    # TODO way to check if container ready?
+
+    backup_name = backup_lines[-1].split()[0]
+
+    backup_url = (
+        subprocess.check_output(["heroku", "pg:backups:url", backup_name])
+        .decode()
+        .strip()
+    )
+
+    if not anonymize:
+        dump_path = os.path.join(forge.forge_tmp_dir, "heroku.dump")
+        dump_compressed = True
+        click.secho("Downloading Heroku backup to .forge/latest.dump", bold=True)
+        subprocess.check_call(["curl", "-o", dump_path, backup_url])
+    else:
+        dump_path = os.path.join(forge.forge_tmp_dir, "heroku_anonymized.dump")
+        dump_compressed = False
+        click.secho(
+            f"Anonymizing Heroku backup and saving to {os.path.relpath(dump_path)}",
+            bold=True,
+        )
+        with requests.get(backup_url, stream=True) as r:
+            r.raise_for_status()
+
+            p = subprocess.Popen(
+                [
+                    "python",
+                    forge.user_or_forge_path("manage.py"),
+                    "anonymizedump",
+                    "--output",
+                    dump_path,
+                ],
+                env={**os.environ, "PYTHONPATH": forge.app_dir},
+                stdin=subprocess.PIPE,
+            )
+            for chunk in r.iter_content(2048):
+                p.stdin.write(chunk)
+            _, stderr = p.communicate()
+            if stderr:
+                print(stderr)
+
+            if p.returncode != 0:
+                click.secho("Failed to anonymize Heroku backup", fg="red")
+                exit(p.returncode)
+
+    click.secho("Resetting development database", bold=True)
+    forge.db_container.reset()
+
+    click.secho("Importing database from Heroku backup", bold=True)
+    forge.db_container.restore_dump(dump_path, compressed=dump_compressed)
+
+    # TODO run migrations afterwards too?
+
+    click.secho("Database imported!", fg="green")
 
 
 @cli.group()
