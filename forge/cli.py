@@ -286,6 +286,11 @@ def db_stop():
 def db_pull(ctx, backup, anonymize):
     forge = Forge()
 
+    # Make sure Django works first
+    if forge.manage_cmd("check").returncode:
+        click.secho("Django check failed!", fg="red")
+        sys.exit(1)
+
     anonymize_installed = (
         forge.manage_cmd(
             "anonymizedump",
