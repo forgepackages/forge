@@ -9,7 +9,6 @@ import sys
 import click
 import dj_database_url
 from django.core.management.utils import get_random_secret_key
-from dotenv import load_dotenv
 from dotenv import set_key as dotenv_set_key
 from honcho.manager import Manager as HonchoManager
 
@@ -56,7 +55,6 @@ def format_cmd(check):
 @click.argument("pytest_args", nargs=-1, type=click.UNPROCESSED)
 def test(pytest_args):
     forge = Forge()
-    load_dotenv()
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
     result = forge.venv_cmd(
         "pytest",
@@ -173,7 +171,6 @@ def work():
         sys.exit(1)
 
     dotenv_path = os.path.join(repo_root, ".env")
-    load_dotenv(dotenv_path)
 
     django_env = {
         "PYTHONPATH": forge.app_dir,

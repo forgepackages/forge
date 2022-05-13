@@ -1,6 +1,7 @@
 import os
 import subprocess
 
+from dotenv import load_dotenv
 
 class Forge:
     def __init__(self, target_path=os.getcwd()):
@@ -22,6 +23,10 @@ class Forge:
             # On Heroku, there won't be a repo, so we can't require that necessarily
             # (helps with some other scenarios too)
             self.repo_root = None
+
+        # Load a .env if one exists in the repo root
+        if self.repo_root and os.path.exists(os.path.join(self.repo_root, ".env")):
+            load_dotenv(os.path.join(self.repo_root, ".env"))
 
         # If there's a directory named "app" right here,
         # assume that's the Django project.
