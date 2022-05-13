@@ -164,7 +164,7 @@ class DBContainer:
             **kwargs,
         )
 
-    def reset(self):
+    def reset(self, create=False):
         try:
             self.execute(
                 f"dropdb {self.postgres_db} --force -U {self.postgres_user}",
@@ -174,6 +174,13 @@ class DBContainer:
         except subprocess.CalledProcessError as e:
             if "does not exist" not in e.stdout.decode():
                 raise
+
+        if create:
+            self.execute(
+                f"createdb {self.postgres_db} -U {self.postgres_user}",
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+            )
 
     def restore_dump(self, dump_path, compressed=False):
         """Imports a dump into {name}_import, then renames to {name} to prevent Django connections during process"""
@@ -209,6 +216,9 @@ class DBContainer:
             for line in result.stderr.decode().splitlines():
                 if not role_error_re.match(line):
                     print(line)
+
+        # Get rid of the main database
+        self.reset(create=False)
 
         # Connect to template1 (which should exist as "maintenance db") so we can rename the others
         self.execute(

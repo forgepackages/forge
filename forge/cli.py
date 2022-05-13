@@ -274,6 +274,13 @@ def db_stop():
     click.secho("Database stopped", fg="green")
 
 
+@db.command("reset")
+def db_reset():
+    forge = Forge()
+    forge.db_container.reset(create=True)
+    click.secho("Local development database reset", fg="green")
+
+
 @db.command("pull")
 @click.option("--backup", is_flag=True)
 @click.option(
@@ -307,8 +314,13 @@ def db_pull(ctx, backup, anonymize):
         click.secho("Enabling anonymize by default", fg="yellow")
         anonymize = True
 
+    if not anonymize and not click.confirm(
+        "Anonymization is not enabled. Are you sure you want to download production data?"
+    ):
+        return
+
     if backup:
-        event("Creating a backup using heroku pg:backups:capture")
+        click.secho("Creating a backup using heroku pg:backups:capture", bold=True)
         subprocess.check_call(["heroku", "pg:backups:capture"])
 
     backup_lines = (
@@ -369,9 +381,6 @@ def db_pull(ctx, backup, anonymize):
             if p.returncode != 0:
                 click.secho("Failed to anonymize Heroku backup", fg="red")
                 exit(p.returncode)
-
-    click.secho("Resetting development database", bold=True)
-    forge.db_container.reset()
 
     click.secho("Importing database from Heroku backup", bold=True)
     forge.db_container.restore_dump(dump_path, compressed=dump_compressed)
