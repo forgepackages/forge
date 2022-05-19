@@ -212,3 +212,6 @@ if not DEBUG:
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
     X_FRAME_OPTIONS = "DENY"
+
+# So we can use {% if debug %} in templates
+INTERNAL_IPS = ["127.0.0.1"]
