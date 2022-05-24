@@ -438,13 +438,18 @@ def template(ctx):
     Forge().manage_cmd("makemigrations", stderr=subprocess.DEVNULL)
 
 
-@quickstart.command()
+@cli.group()
+def heroku():
+    pass
+
+
+@heroku.command("create")
 @click.option("--postgres-tier", default="hobby-dev")
 @click.option("--redis-tier", default="hobby-dev")
 @click.option("--team", default="")
 @click.argument("heroku_app_name")
 @click.pass_context
-def heroku(ctx, heroku_app_name, postgres_tier, redis_tier, team):
+def heroku_create(ctx, heroku_app_name, postgres_tier, redis_tier, team):
     if (
         subprocess.call(
             ["git", "remote", "show", "heroku"],
