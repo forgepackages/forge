@@ -3,10 +3,11 @@ import subprocess
 import sys
 
 import click
+from click_didyoumean import DYMGroup
 from django.core.management.utils import get_random_secret_key
 
 
-@click.group()
+@click.group(cls=DYMGroup)
 def heroku():
     """Shortcuts for common Heroku operations"""
     pass

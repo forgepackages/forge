@@ -5,11 +5,12 @@ import sys
 
 import click
 import requests
+from click_didyoumean import DYMGroup
 
 from .. import Forge
 
 
-@click.group()
+@click.group(cls=DYMGroup)
 def db():
     """Start, stop, and manage the local Postgres database"""
     pass

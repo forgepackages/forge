@@ -6,6 +6,7 @@ import subprocess
 import sys
 
 import click
+from click_didyoumean import DYMGroup
 from dotenv import set_key as dotenv_set_key
 from honcho.manager import Manager as HonchoManager
 
@@ -15,7 +16,7 @@ from .heroku import heroku
 from .tailwind import tailwind
 
 
-@click.group()
+@click.group(cls=DYMGroup)
 def cli():
     pass
 
@@ -262,7 +263,7 @@ def work():
     sys.exit(manager.returncode)
 
 
-@cli.group()
+@cli.group(cls=DYMGroup)
 def quickstart():
     """Quickstart commands"""
     pass

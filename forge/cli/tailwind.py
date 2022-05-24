@@ -2,12 +2,13 @@ import os
 import subprocess
 
 import click
+from click_didyoumean import DYMGroup
 
 from .. import Forge
 from ..tailwind import Tailwind
 
 
-@click.group()
+@click.group(cls=DYMGroup)
 def tailwind():
     """Built-in Tailwind CSS commands"""
     pass
