@@ -11,6 +11,7 @@ from .. import Forge
 
 @click.group()
 def db():
+    """Start, stop, and manage the local Postgres database"""
     pass
 
 

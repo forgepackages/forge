@@ -28,6 +28,7 @@ cli.add_command(tailwind)
 @cli.command("format")  # format is a keyword
 @click.option("--check", is_flag=True)
 def format_cmd(check):
+    """Format Python code with black and isort"""
     forge = Forge()
 
     # Make relative for nicer output
@@ -58,6 +59,7 @@ def format_cmd(check):
 )
 @click.argument("pytest_args", nargs=-1, type=click.UNPROCESSED)
 def test(pytest_args):
+    """Run tests with pytest"""
     forge = Forge()
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
     result = forge.venv_cmd(
@@ -74,6 +76,7 @@ def test(pytest_args):
 
 @cli.command("pre-deploy")
 def pre_deploy():
+    """Pre-deploy checks for release process"""
     forge = Forge()
 
     click.secho("Running Django system checks", bold=True)
@@ -85,7 +88,7 @@ def pre_deploy():
 
 @cli.command()
 def serve():
-    """Run a production server using gunicorn (should be used for Heroku process)"""
+    """Run a production server using gunicorn (Heroku)"""
     forge = Forge()
     wsgi = "wsgi" if forge.user_file_exists("wsgi.py") else "forge.default_files.wsgi"
     result = forge.venv_cmd(
@@ -104,6 +107,7 @@ def serve():
 @click.option("--install", is_flag=True)
 @click.pass_context
 def pre_commit(ctx, install):
+    """Git pre-commit checks"""
     forge = Forge()
 
     if install:
@@ -148,6 +152,7 @@ forge pre-commit"""
 )
 @click.argument("managepy_args", nargs=-1, type=click.UNPROCESSED)
 def django(managepy_args):
+    """Pass commands to Django manage.py"""
     result = Forge().manage_cmd(*managepy_args)
     if result.returncode:
         sys.exit(result.returncode)
@@ -156,7 +161,7 @@ def django(managepy_args):
 @cli.command()
 @click.option("--heroku", is_flag=True)
 def shell(heroku):
-    """Open a Python shell"""
+    """Open a Python/Django shell"""
     if heroku:
         subprocess.run(["heroku", "run", "python app/manage.py shell"])
     else:
@@ -165,6 +170,7 @@ def shell(heroku):
 
 @cli.command()
 def work():
+    """Start local development"""
     # TODO check docker is available first
 
     forge = Forge()
@@ -258,6 +264,7 @@ def work():
 
 @cli.group()
 def quickstart():
+    """Quickstart commands"""
     pass
 
 

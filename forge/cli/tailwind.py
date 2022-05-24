@@ -9,6 +9,7 @@ from ..tailwind import Tailwind
 
 @click.group()
 def tailwind():
+    """Built-in Tailwind CSS commands"""
     pass
 
 
