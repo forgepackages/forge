@@ -54,7 +54,7 @@ def main(project_name, forge_source):
     os.mkdir(project_name)
 
     event("Running git init")
-    subprocess.check_call(["git", "init"], cwd=project_name)
+    subprocess.check_call(["git", "init"], cwd=project_name, stdout=subprocess.DEVNULL)
 
     event("Creating .gitignore")
     with open(os.path.join(project_name, ".gitignore"), "w") as f:
@@ -72,6 +72,7 @@ def main(project_name, forge_source):
             forge_source,
         ],
         cwd=project_name,
+        stdout=subprocess.DEVNULL,
     )
 
     event("Installing poetry dependencies")
