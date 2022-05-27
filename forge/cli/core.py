@@ -28,29 +28,42 @@ cli.add_command(tailwind)
 
 @cli.command("format")  # format is a keyword
 @click.option("--check", is_flag=True)
-def format_cmd(check):
+@click.option("--black", is_flag=True, default=True)
+@click.option("--isort", is_flag=True, default=True)
+def format_cmd(check, black, isort):
     """Format Python code with black and isort"""
     forge = Forge()
 
     # Make relative for nicer output
     target = os.path.relpath(forge.app_dir)
 
-    black_args = ["--extend-exclude", "migrations"]
-    if check:
-        black_args.append("--check")
-    black_args.append(target)
-    forge.venv_cmd(
-        "black",
-        *black_args,
-        check=True,
-    )
+    if black:
+        click.secho("Formatting with black", bold=True)
+        black_args = ["--extend-exclude", "migrations"]
+        if check:
+            black_args.append("--check")
+        black_args.append(target)
+        forge.venv_cmd(
+            "black",
+            *black_args,
+            check=True,
+        )
 
-    # Include --src so internal imports are recognized correctly
-    isort_args = ["--extend-skip", "migrations", "--profile", "black", "--src", target]
-    if check:
-        isort_args.append("--check")
-    isort_args.append(target)
-    forge.venv_cmd("isort", *isort_args, check=True)
+    if black and isort:
+        click.echo()
+
+    if isort:
+        click.secho("Formatting with isort", bold=True)
+        isort_config_root = os.path.join(
+            os.path.dirname(os.path.dirname(__file__)), "forge_isort.cfg"
+        )
+
+        # Include --src so internal imports are recognized correctly
+        isort_args = ["--settings-file", isort_config_root, "--src", target]
+        if check:
+            isort_args.append("--check")
+        isort_args.append(target)
+        forge.venv_cmd("isort", *isort_args, check=True)
 
 
 @cli.command(
@@ -82,6 +95,8 @@ def pre_deploy():
 
     click.secho("Running Django system checks", bold=True)
     forge.manage_cmd("check", "--deploy", "--fail-level", "WARNING", check=True)
+
+    click.echo()
 
     click.secho("Running Django migrations", bold=True)
     forge.manage_cmd("migrate", check=True)
@@ -131,17 +146,22 @@ forge pre-commit"""
         click.secho("Checking formatting", bold=True)
         ctx.invoke(format_cmd, check=True)
 
+        click.echo()
         click.secho("Checking database connection", bold=True)
         if forge.manage_cmd("dbconnected").returncode:
+            click.echo()
             click.secho("Running Django checks (without database)", bold=True)
             forge.manage_cmd("check", check=True)
         else:
+            click.echo()
             click.secho("Running Django checks", bold=True)
             forge.manage_cmd("check", "--database", "default", check=True)
 
+            click.echo()
             click.secho("Checking Django migrations", bold=True)
             forge.manage_cmd("migrate", "--check", check=True)
 
+        click.echo()
         click.secho("Running tests", bold=True)
         ctx.invoke(test)
 
@@ -285,7 +305,9 @@ def template(ctx):
 
     event("Creating project files")
     destination = os.getcwd()
-    template_path = os.path.join(os.path.dirname(__file__), "scaffold", "template")
+    template_path = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)), "scaffold", "template"
+    )
 
     # Copy .env manually for now (not in basic glob)
     shutil.copy(os.path.join(template_path, ".env"), destination)
@@ -300,8 +322,8 @@ def template(ctx):
     ctx.invoke(pre_commit, install=True)
 
     # technically this will give an error code because db isn't running
-    event("Creating default team and user migrations")
-    Forge().manage_cmd("makemigrations", stderr=subprocess.DEVNULL)
+    event("Creating default team and user migrations\n")
+    Forge().manage_cmd("makemigrations", "--no-input", stderr=subprocess.DEVNULL)
 
 
 if __name__ == "__main__":
