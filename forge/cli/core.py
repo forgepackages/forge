@@ -76,6 +76,12 @@ def test(pytest_args):
     """Run tests with pytest"""
     forge = Forge()
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
+
+    # Turn deprecation warnings into errors
+    if "-W" not in pytest_args:
+        pytest_args.append("-W")
+        pytest_args.append("error::DeprecationWarning")
+
     result = forge.venv_cmd(
         "pytest",
         *pytest_args,
