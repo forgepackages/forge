@@ -118,6 +118,9 @@ class DBContainer:
                     "-p",
                     f"{self.postgres_port}:5432",
                     f"postgres:{self.postgres_version}",
+                    "postgres",
+                    "-c",
+                    "stats_temp_directory=/tmp",
                 ],
                 stderr=subprocess.PIPE,
             )
