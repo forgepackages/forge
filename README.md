@@ -26,6 +26,8 @@ Start a new project in 5 minutes:
 curl -sSL https://djangoforge.dev/quickstart.py | python3 - my-project
 ```
 
+[![Forge Django quickstart](https://user-images.githubusercontent.com/649496/173145833-e4f96a4c-efb6-4cc3-b118-184be1a007f1.png)](https://www.youtube.com/watch?v=wYMRxTGDmdU)
+
 ## What's included
 
 Things that come with Forge,
