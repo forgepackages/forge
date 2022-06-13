@@ -318,6 +318,11 @@ def template(ctx):
     # Copy .env manually for now (not in basic glob)
     shutil.copy(os.path.join(template_path, ".env"), destination)
 
+    # Copy .github manually
+    shutil.copytree(
+        os.path.join(template_path, ".github"), os.path.join(destination, ".github")
+    )
+
     for f in glob.glob(os.path.join(template_path, "*")):
         if os.path.isfile(f):
             shutil.copy(f, destination)
