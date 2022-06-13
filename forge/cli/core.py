@@ -79,6 +79,7 @@ def test(pytest_args):
 
     # Turn deprecation warnings into errors
     if "-W" not in pytest_args:
+        pytest_args = list(pytest_args)  # Make sure it's a list instead of tuple
         pytest_args.append("-W")
         pytest_args.append("error::DeprecationWarning")
 
@@ -287,54 +288,6 @@ def work():
     manager.loop()
 
     sys.exit(manager.returncode)
-
-
-@cli.group(cls=DYMGroup)
-def quickstart():
-    """Quickstart commands"""
-    pass
-
-
-@quickstart.command()
-@click.pass_context
-def template(ctx):
-    """Forge is already installed, and presumably in a git repo."""
-
-    # Matches the format in quickstart.py
-    def event(text, *args, **kwargs):
-        print("\033[1m--> " + text + "\033[0m", *args, **kwargs)
-
-    # Do a basic sanity check for whether we should continue
-    if os.path.exists("app"):
-        click.secho("app directory already exists", fg="red", err=True)
-        sys.exit(1)
-
-    event("Creating project files")
-    destination = os.getcwd()
-    template_path = os.path.join(
-        os.path.dirname(os.path.dirname(__file__)), "scaffold", "template"
-    )
-
-    # Copy .env manually for now (not in basic glob)
-    shutil.copy(os.path.join(template_path, ".env"), destination)
-
-    # Copy .github manually
-    shutil.copytree(
-        os.path.join(template_path, ".github"), os.path.join(destination, ".github")
-    )
-
-    for f in glob.glob(os.path.join(template_path, "*")):
-        if os.path.isfile(f):
-            shutil.copy(f, destination)
-        else:
-            shutil.copytree(f, os.path.join(destination, os.path.basename(f)))
-
-    event("Installing pre-commit hook")
-    ctx.invoke(pre_commit, install=True)
-
-    # technically this will give an error code because db isn't running
-    event("Creating default team and user migrations\n")
-    Forge().manage_cmd("makemigrations", "--no-input", stderr=subprocess.DEVNULL)
 
 
 if __name__ == "__main__":
