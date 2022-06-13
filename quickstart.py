@@ -29,7 +29,7 @@ def main(project_name, template_source):
         print(f"{project_name} already exists")
         sys.exit(1)
 
-    event(f"Cloning template into new git repo ({template_source})")
+    event(f"Creating new repo from template ({template_source})")
     subprocess.check_call(
         ["git", "clone", "--depth", "1", template_source, project_name],
         stdout=subprocess.DEVNULL,
@@ -38,9 +38,7 @@ def main(project_name, template_source):
     subprocess.check_call(["git", "init"], cwd=project_name, stdout=subprocess.DEVNULL)
 
     event("Installing dependencies (./scripts/install)")
-    subprocess.check_call(
-        ["./scripts/install"], cwd=project_name, stdout=subprocess.DEVNULL
-    )
+    subprocess.check_call(["./scripts/install"], cwd=project_name)
 
     print(
         f"""
