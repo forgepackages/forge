@@ -2,9 +2,6 @@
 poetry run black forge --exclude migrations "$@"
 poetry run isort forge --settings-file forge/forge_isort.cfg --skip template "$@"
 
-# Format the template as-if not a part of forge"
-poetry run isort forge/scaffold/template --src forge/scaffold/template --settings-file forge/forge_isort.cfg --thirdparty forge "$@"
-
 poetry run black tests "$@"
 poetry run isort tests --profile black "$@"
 

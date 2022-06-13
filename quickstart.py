@@ -1,30 +1,9 @@
 import os
+import shutil
 import subprocess
 import sys
 
-DEFAULT_FORGE_SOURCE = "forge"  # TODO change this when name changes
-GITIGNORE_CONTENTS = """# Local development files
-/.env
-/.forge
-
-# Bundled assets
-/app/static/dist
-
-# Collected staticfiles
-/app/staticfiles
-
-# Python
-/.venv
-__pycache__/
-*.py[cod]
-*$py.class
-
-# JS
-/node_modules
-
-# OS files
-.DS_Store
-"""
+DEFAULT_TEMPLATE_SOURCE = "https://github.com/forgepackages/starter-template"
 
 POETRY_NOTICE = """This quickstart uses Poetry! It doesn't look like you have `poetry` installed (or it isn't in your PATH).
 
@@ -39,7 +18,7 @@ def event(text, *args, **kwargs):
     print("\033[1m--> " + text + "\033[0m", *args, **kwargs)
 
 
-def main(project_name, forge_source):
+def main(project_name, template_source):
     try:
         subprocess.check_output(["poetry", "--version"])
     except FileNotFoundError:
@@ -50,42 +29,17 @@ def main(project_name, forge_source):
         print(f"{project_name} already exists")
         sys.exit(1)
 
-    event(f"Creating new project: {project_name}")
-    os.mkdir(project_name)
-
-    event("Running git init")
-    subprocess.check_call(["git", "init"], cwd=project_name, stdout=subprocess.DEVNULL)
-
-    event("Creating .gitignore")
-    with open(os.path.join(project_name, ".gitignore"), "w") as f:
-        f.write(GITIGNORE_CONTENTS)
-
-    event("Running poetry init")
+    event(f"Cloning template into new git repo ({template_source})")
     subprocess.check_call(
-        [
-            "poetry",
-            "init",
-            "--no-interaction",
-            "--name",
-            project_name,
-            "--dependency",
-            forge_source,
-        ],
-        cwd=project_name,
+        ["git", "clone", "--depth", "1", template_source, project_name],
         stdout=subprocess.DEVNULL,
     )
+    shutil.rmtree(os.path.join(project_name, ".git"))
+    subprocess.check_call(["git", "init"], cwd=project_name, stdout=subprocess.DEVNULL)
 
-    event("Installing poetry dependencies")
+    event("Installing dependencies (./scripts/install)")
     subprocess.check_call(
-        ["poetry", "install"],
-        cwd=project_name,
-        env={**os.environ, "POETRY_VIRTUALENVS_IN_PROJECT": "true"},
-    )
-
-    print()
-    subprocess.check_call(
-        ["poetry", "run", "forge", "quickstart", "template"],
-        cwd=project_name,
+        ["./scripts/install"], cwd=project_name, stdout=subprocess.DEVNULL
     )
 
     print(
@@ -127,12 +81,12 @@ if __name__ == "__main__":
         sys.exit(1)
 
     if "--source" in sys.argv:
-        forge_source = sys.argv[sys.argv.index("--source") + 1]
+        template_source = sys.argv[sys.argv.index("--source") + 1]
         sys.argv.remove("--source")
-        sys.argv.remove(forge_source)
+        sys.argv.remove(template_source)
     else:
-        forge_source = DEFAULT_FORGE_SOURCE
+        template_source = DEFAULT_TEMPLATE_SOURCE
 
     project_name = sys.argv[1]
 
-    main(project_name, forge_source)
+    main(project_name, template_source)
