@@ -15,7 +15,7 @@ When you're ready, try running this command again."""
 
 
 def event(text, *args, **kwargs):
-    print("\033[1m--> " + text + "\033[0m", *args, **kwargs)
+    print("\033[1m" + text + "\033[0m", *args, **kwargs)
 
 
 def main(project_name, template_source):
@@ -37,7 +37,7 @@ def main(project_name, template_source):
     shutil.rmtree(os.path.join(project_name, ".git"))
     subprocess.check_call(["git", "init"], cwd=project_name, stdout=subprocess.DEVNULL)
 
-    event("Installing dependencies (./scripts/install)")
+    print()
     subprocess.check_call(["./scripts/install"], cwd=project_name)
 
     print(
