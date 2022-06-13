@@ -23,7 +23,7 @@ Forge will get you from *zero to one* on a revenue-generating SaaS, internal bus
 Start a new project in 5 minutes:
 
 ```sh
-curl -sSL https://djangoforge.dev/quickstart.py | python3 - my-project
+curl -sSL https://forgepackages.com/quickstart.py | python3 - my-project
 ```
 
 ## What's included

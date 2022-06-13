@@ -104,7 +104,7 @@ def main(project_name, forge_source):
 
 \033[32mCheck the documentation for more details:\033[0m
 
-  \033[1;32mhttps://www.djangoforge.dev/docs/\033[0m
+  \033[1;32mhttps://www.forgepackages.com/docs/\033[0m
 """
     )
 

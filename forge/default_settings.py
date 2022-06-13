@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.forms",
-    # django-forge apps
+    # forge apps
     "forge",
     "widget_tweaks",
 ]

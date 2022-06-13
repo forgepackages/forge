@@ -10,7 +10,7 @@ from click_didyoumean import DYMGroup
 
 from .. import Forge
 
-FORGE_BUILDPACK = "https://github.com/django-forge/heroku-buildpack-forge.git"
+FORGE_BUILDPACK = "https://github.com/forgepackages/heroku-buildpack-forge.git"
 
 
 @click.group(cls=DYMGroup)

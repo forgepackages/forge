@@ -11,9 +11,9 @@ description = "Quickly build a professional web app using Django."
 authors = ["Dave Gaeddert <dave.gaeddert@dropseed.dev>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://www.djangoforge.dev/"
-documentation = "https://www.djangoforge.dev/docs/"
-repository = "https://github.com/django-forge/forge"
+homepage = "https://www.forgepackages.com/"
+documentation = "https://www.forgepackages.com/docs/"
+repository = "https://github.com/forgepackages/forge"
 keywords = ["django", "saas", "forge", "framework"]
 classifiers = [
     "Environment :: Web Environment",
