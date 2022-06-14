@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.forms",
     # forge apps
     "forge",
+    "forge.standards",
     "widget_tweaks",
 ]
 
