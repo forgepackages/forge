@@ -31,6 +31,7 @@ python = "^3.8"
 
 forge-core = "^0.1.0"
 forge-format = "^0.1.0"
+forge-work = "^0.1.0"
 
 Django = "^4.0"
 django-widget-tweaks = "^1.4.12"
@@ -52,9 +53,6 @@ hiredis = "^2.0.0"
 ipdb = "^0.13.9"
 pytest = "^7.0.0"
 pytest-django = "^4.5.2"
-
-# Pin honcho to a specific version
-honcho = "1.1.0"
 
 requests = ">=2.0.0"
 click-didyoumean = "^0.3.0"
