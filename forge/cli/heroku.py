@@ -3,10 +3,9 @@ import platform
 import subprocess
 import sys
 
-from django.core.management.utils import get_random_secret_key
-
 import click
 from click_didyoumean import DYMGroup
+from django.core.management.utils import get_random_secret_key
 
 from .. import Forge
 

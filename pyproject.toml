@@ -1,11 +1,5 @@
 [tool.poetry]
-
-# Temporary...
 name = "forge"
-packages = [
-    { include = "forge" },
-]
-
 version = "0.13.0"
 description = "Quickly build a professional web app using Django."
 authors = ["Dave Gaeddert <dave.gaeddert@dropseed.dev>"]
@@ -35,12 +29,15 @@ forge = "forge.cli:cli"
 [tool.poetry.dependencies]
 python = "^3.8"
 
+forge-core = "^0.1.0"
+forge-format = "^0.1.0"
+
 Django = "^4.0"
 django-widget-tweaks = "^1.4.12"
 dj-database-url = "^0.5.0"
 whitenoise = "^6.0.0"
 
-python-dotenv = "^0.19.2"
+python-dotenv = "^0.20.0"
 psycopg2-binary = "^2.9.2"
 gunicorn = "^20.1.0"
 click = "^8.1.0"
@@ -53,8 +50,6 @@ hiredis = "^2.0.0"
 # but would have to decalre that in child for that to work
 # Helpful to have ipdb in production shell anyway? Anything wrong with this?
 ipdb = "^0.13.9"
-black = "^22.1.0"
-isort = "^5.10.1"
 pytest = "^7.0.0"
 pytest-django = "^4.5.2"
 
@@ -64,6 +59,10 @@ honcho = "1.1.0"
 requests = ">=2.0.0"
 click-didyoumean = "^0.3.0"
 
+
+[tool.poetry.dev-dependencies]
+isort = "^5.10.1"
+black = "^22.3.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

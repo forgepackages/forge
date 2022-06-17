@@ -216,6 +216,33 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "forge-core"
+version = "0.1.0"
+description = "Core library for Forge"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+click = ">=8.1.0,<9.0.0"
+python-dotenv = ">=0.20.0,<0.21.0"
+
+[[package]]
+name = "forge-format"
+version = "0.1.0"
+description = "Formatting library for Forge"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+black = ">=22.3.0,<23.0.0"
+click = ">=8.1.0,<9.0.0"
+forge-core = "<1.0.0"
+isort = ">=5.10.1,<6.0.0"
+python-dotenv = ">=0.20.0,<0.21.0"
+
+[[package]]
 name = "gunicorn"
 version = "20.1.0"
 description = "WSGI HTTP Server for UNIX"
@@ -540,7 +567,7 @@ testing = ["django", "django-configurations (>=2.0)"]
 
 [[package]]
 name = "python-dotenv"
-version = "0.19.2"
+version = "0.20.0"
 description = "Read key-value pairs from a .env file and set them as environment variables"
 category = "main"
 optional = false
@@ -702,7 +729,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "94f6b30b304e6b59448bf5014820ae27ced062f8365659ff3e67f14d1498cc11"
+content-hash = "8f569286842ea113f2765e40a325464301af663b3da7cb34333fc15967fc7352"
 
 [metadata.files]
 appnope = [
@@ -819,6 +846,14 @@ django-widget-tweaks = [
 executing = [
     {file = "executing-0.8.3-py2.py3-none-any.whl", hash = "sha256:d1eef132db1b83649a3905ca6dd8897f71ac6f8cac79a7e58a1a09cf137546c9"},
     {file = "executing-0.8.3.tar.gz", hash = "sha256:c6554e21c6b060590a6d3be4b82fb78f8f0194d809de5ea7df1c093763311501"},
+]
+forge-core = [
+    {file = "forge-core-0.1.0.tar.gz", hash = "sha256:0af209a8080028976b867380ed73f44d70b3fac390ac1ec4984d23f056bebbd1"},
+    {file = "forge_core-0.1.0-py3-none-any.whl", hash = "sha256:40c18bf608799a79f2fb2ab3d43bf087c09bef57a4f1a672d564463f305837c5"},
+]
+forge-format = [
+    {file = "forge-format-0.1.0.tar.gz", hash = "sha256:dc298ac315e373ef34ac2ba0a753daa9b0d6c23a8c435f83a45d6134d3e43ee3"},
+    {file = "forge_format-0.1.0-py3-none-any.whl", hash = "sha256:4d26dcaecfd8931ddf0b078b5d88e6bdfa06618c341a8f7a4d2227fc363483ae"},
 ]
 gunicorn = [
     {file = "gunicorn-20.1.0-py3-none-any.whl", hash = "sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e"},
@@ -1021,8 +1056,8 @@ pytest-django = [
     {file = "pytest_django-4.5.2-py3-none-any.whl", hash = "sha256:c60834861933773109334fe5a53e83d1ef4828f2203a1d6a0fa9972f4f75ab3e"},
 ]
 python-dotenv = [
-    {file = "python-dotenv-0.19.2.tar.gz", hash = "sha256:a5de49a31e953b45ff2d2fd434bbc2670e8db5273606c1e737cc6b93eff3655f"},
-    {file = "python_dotenv-0.19.2-py2.py3-none-any.whl", hash = "sha256:32b2bdc1873fd3a3c346da1c6db83d0053c3c62f28f1f38516070c4c8971b1d3"},
+    {file = "python-dotenv-0.20.0.tar.gz", hash = "sha256:b7e3b04a59693c42c36f9ab1cc2acc46fa5df8c78e178fc33a8d4cd05c8d498f"},
+    {file = "python_dotenv-0.20.0-py3-none-any.whl", hash = "sha256:d92a187be61fe482e4fd675b6d52200e7be63a12b724abbf931a40ce4fa92938"},
 ]
 redis = [
     {file = "redis-4.2.2-py3-none-any.whl", hash = "sha256:4e95f4ec5f49e636efcf20061a5a9110c20852f607cfca6865c07aaa8a739ee2"},
