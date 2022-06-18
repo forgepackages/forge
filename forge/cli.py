@@ -22,7 +22,9 @@ class NamespaceGroup(click.Group):
         return rv
 
     def get_command(self, ctx, name):
-        import_name = f"forge{name}"
+        # Remove hyphens and prepend w/ "forge"
+        # so "pre-commit" becomes "forgeprecommit" as an import
+        import_name = "forge" + name.replace("-", "")
         try:
             i = importlib.import_module(import_name)
             return i.cli
