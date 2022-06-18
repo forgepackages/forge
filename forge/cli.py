@@ -4,12 +4,7 @@ import subprocess
 import sys
 
 import click
-from click_didyoumean import DYMGroup
-
-from .. import Forge
-from .db import db
-from .heroku import heroku
-from .tailwind import tailwind
+from forgecore import Forge
 
 
 class NamespaceGroup(click.Group):
@@ -37,14 +32,9 @@ class NamespaceGroup(click.Group):
             click.secho(f'Error importing "{import_name}":\n  {e}\n', fg="red")
 
 
-@click.group(cls=DYMGroup)
+@click.group()
 def cli():
     pass
-
-
-cli.add_command(heroku)
-cli.add_command(db)
-cli.add_command(tailwind)
 
 
 @cli.command(
@@ -74,37 +64,6 @@ def test(pytest_args):
     if result.returncode:
         # Can be invoked by pre-commit, so only exit if it fails
         sys.exit(result.returncode)
-
-
-@cli.command("pre-deploy")
-def pre_deploy():
-    """Pre-deploy checks for release process"""
-    forge = Forge()
-
-    click.secho("Running Django system checks", bold=True)
-    forge.manage_cmd("check", "--deploy", "--fail-level", "WARNING", check=True)
-
-    click.echo()
-
-    click.secho("Running Django migrations", bold=True)
-    forge.manage_cmd("migrate", check=True)
-
-
-@cli.command()
-def serve():
-    """Run a production server using gunicorn (Heroku)"""
-    forge = Forge()
-    wsgi = "wsgi" if forge.user_file_exists("wsgi.py") else "forge.default_files.wsgi"
-    result = forge.venv_cmd(
-        "gunicorn",
-        f"{wsgi}:application",
-        "--log-file",
-        "-",
-        env={
-            "PYTHONPATH": forge.app_dir,
-        },
-    )
-    sys.exit(result.returncode)
 
 
 @cli.command()

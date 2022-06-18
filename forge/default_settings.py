@@ -3,8 +3,7 @@ from pathlib import Path
 
 import dj_database_url
 from dotenv import load_dotenv
-
-from . import Forge
+from forgecore import Forge
 
 # Load environment variables from repo .env file (only exists in development)
 load_dotenv()
@@ -13,7 +12,7 @@ load_dotenv()
 _forge = Forge()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(_forge.app_dir)
+BASE_DIR = Path(_forge.project_dir)
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = environ["SECRET_KEY"]
