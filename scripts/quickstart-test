@@ -2,4 +2,4 @@
 # Set up a forge-quickstart-test directory next to this repo
 cd ..
 rm -rf forge-quickstart-test
-cat forge/quickstart.py | python3 - forge-quickstart-test
+cat forge/quickstart.py | python3 - forge-quickstart-test --source ./starter-template

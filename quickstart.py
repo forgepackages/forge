@@ -29,11 +29,16 @@ def main(project_name, template_source):
         print(f"{project_name} already exists")
         sys.exit(1)
 
-    event(f"Creating new repo from template ({template_source})")
-    subprocess.check_call(
-        ["git", "clone", "--depth", "1", template_source, project_name],
-        stdout=subprocess.DEVNULL,
-    )
+    if os.path.exists(template_source):
+        event(f"Copying local template ({template_source})")
+        subprocess.check_call(["cp", "-r", template_source, project_name])
+    else:
+        event(f"Creating new repo from template ({template_source})")
+        subprocess.check_call(
+            ["git", "clone", "--depth", "1", template_source, project_name],
+            stdout=subprocess.DEVNULL,
+        )
+
     shutil.rmtree(os.path.join(project_name, ".git"))
     subprocess.check_call(["git", "init"], cwd=project_name, stdout=subprocess.DEVNULL)
 
