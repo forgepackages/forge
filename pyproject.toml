@@ -23,7 +23,7 @@ forge = "forge.cli:cli"
 [tool.poetry.dependencies]
 python = "^3.8"
 
-forge-core = "^0.1.0"
+forge-core = "^0.1.1"
 forge-format = "^0.1.0"
 forge-work = "^0.1.0"
 forge-heroku = "^0.1.0"

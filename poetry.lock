@@ -206,7 +206,7 @@ python-versions = "*"
 
 [[package]]
 name = "forge-core"
-version = "0.1.0"
+version = "0.1.1"
 description = "Core library for Forge"
 category = "main"
 optional = false
@@ -774,7 +774,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "1ddacfe2c5c6fad906bd1e4ab49c0074f9d607051fd097072adb4c033821436c"
+content-hash = "19907135fceb67d22d77e80c9e09588d4f95c987515627d8a306f84247127cb0"
 
 [metadata.files]
 appnope = [
@@ -889,8 +889,8 @@ executing = [
     {file = "executing-0.8.3.tar.gz", hash = "sha256:c6554e21c6b060590a6d3be4b82fb78f8f0194d809de5ea7df1c093763311501"},
 ]
 forge-core = [
-    {file = "forge-core-0.1.0.tar.gz", hash = "sha256:0af209a8080028976b867380ed73f44d70b3fac390ac1ec4984d23f056bebbd1"},
-    {file = "forge_core-0.1.0-py3-none-any.whl", hash = "sha256:40c18bf608799a79f2fb2ab3d43bf087c09bef57a4f1a672d564463f305837c5"},
+    {file = "forge-core-0.1.1.tar.gz", hash = "sha256:06b936bec786284be602bf581400a5d7f6b01c24767b901352e9bd329de9b1d0"},
+    {file = "forge_core-0.1.1-py3-none-any.whl", hash = "sha256:dde898facfa3e17872785253208edab2e531a25b945731c52eb2dd93a8455803"},
 ]
 forge-db = [
     {file = "forge-db-0.1.1.tar.gz", hash = "sha256:801d8df09236ae429d71d4cf6483b5043c90d5ac987d7970f401198d28e88ae6"},
