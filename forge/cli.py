@@ -65,7 +65,7 @@ def test(pytest_args):
         "pytest",
         *pytest_args,
         env={
-            "PYTHONPATH": forge.app_dir,
+            "PYTHONPATH": forge.project_dir,
         },
     )
     if result.returncode:
