@@ -5,6 +5,7 @@ import sys
 
 import click
 from forgecore import Forge
+from forgeheroku.cli import pre_deploy, serve
 
 
 class NamespaceGroup(click.Group):
@@ -35,6 +36,12 @@ class NamespaceGroup(click.Group):
 @click.group()
 def cli():
     pass
+
+
+# Deprecated - moved to heroku serve and heroku pre-deploy
+# (buildpack Procfile needs to support both for now?)
+cli.add_command(serve)
+cli.add_command(pre_deploy)
 
 
 @cli.command(
