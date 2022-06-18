@@ -73,7 +73,7 @@ TEMPLATES = [
 if _forge.user_file_exists("wsgi.py"):
     WSGI_APPLICATION = "wsgi.application"
 else:
-    WSGI_APPLICATION = "forge.default_files.wsgi.application"
+    WSGI_APPLICATION = "forgecore.default_files.wsgi.application"
 
 
 # Database
