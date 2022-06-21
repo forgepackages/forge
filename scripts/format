@@ -1,6 +1,6 @@
 #!/bin/sh -e
 poetry run black forge --exclude migrations "$@"
-poetry run isort forge --settings-file forge/forge_isort.cfg --skip template "$@"
+poetry run isort forge --profile=black "$@"
 
 poetry run black tests "$@"
 poetry run isort tests --profile black "$@"

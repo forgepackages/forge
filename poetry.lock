@@ -133,17 +133,6 @@ python-versions = ">=3.7"
 colorama = {version = "*", markers = "platform_system == \"Windows\""}
 
 [[package]]
-name = "click-didyoumean"
-version = "0.3.0"
-description = "Enables git-like *did-you-mean* feature in click"
-category = "main"
-optional = false
-python-versions = ">=3.6.2,<4.0.0"
-
-[package.dependencies]
-click = ">=7"
-
-[[package]]
 name = "colorama"
 version = "0.4.4"
 description = "Cross-platform colored terminal text."
@@ -214,6 +203,89 @@ description = "Get the currently executing AST node of a frame, and other inform
 category = "main"
 optional = false
 python-versions = "*"
+
+[[package]]
+name = "forge-core"
+version = "0.1.1"
+description = "Core library for Forge"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+click = ">=8.1.0,<9.0.0"
+python-dotenv = ">=0.20.0,<0.21.0"
+
+[[package]]
+name = "forge-db"
+version = "0.1.1"
+description = "Work library for Forge"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+click = ">=8.1.0,<9.0.0"
+dj-database-url = ">=0.5.0,<0.6.0"
+forge-core = "<1.0.0"
+psycopg2-binary = ">=2.9.3,<3.0.0"
+requests = ">=2.28.0,<3.0.0"
+
+[[package]]
+name = "forge-format"
+version = "0.1.0"
+description = "Formatting library for Forge"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+black = ">=22.3.0,<23.0.0"
+click = ">=8.1.0,<9.0.0"
+forge-core = "<1.0.0"
+isort = ">=5.10.1,<6.0.0"
+python-dotenv = ">=0.20.0,<0.21.0"
+
+[[package]]
+name = "forge-heroku"
+version = "0.1.0"
+description = "Work library for Forge"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+click = ">=8.1.0,<9.0.0"
+forge-core = "<1.0.0"
+gunicorn = ">=20.1.0,<21.0.0"
+psycopg2-binary = ">=2.9.3,<3.0.0"
+
+[[package]]
+name = "forge-tailwind"
+version = "0.1.0"
+description = "Work library for Forge"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+click = ">=8.1.0,<9.0.0"
+forge-core = "<1.0.0"
+requests = ">=2.28.0,<3.0.0"
+
+[[package]]
+name = "forge-work"
+version = "0.1.0"
+description = "Work library for Forge"
+category = "main"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[package.dependencies]
+click = ">=8.1.0,<9.0.0"
+forge-core = "<1.0.0"
+honcho = ">=1.1.0,<2.0.0"
+python-dotenv = ">=0.20.0,<0.21.0"
 
 [[package]]
 name = "gunicorn"
@@ -540,7 +612,7 @@ testing = ["django", "django-configurations (>=2.0)"]
 
 [[package]]
 name = "python-dotenv"
-version = "0.19.2"
+version = "0.20.0"
 description = "Read key-value pairs from a .env file and set them as environment variables"
 category = "main"
 optional = false
@@ -568,20 +640,20 @@ ocsp = ["cryptography (>=36.0.1)", "pyopenssl (==20.0.1)", "requests (>=2.26.0)"
 
 [[package]]
 name = "requests"
-version = "2.27.1"
+version = "2.28.0"
 description = "Python HTTP for Humans."
 category = "main"
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+python-versions = ">=3.7, <4"
 
 [package.dependencies]
 certifi = ">=2017.4.17"
-charset-normalizer = {version = ">=2.0.0,<2.1.0", markers = "python_version >= \"3\""}
-idna = {version = ">=2.5,<4", markers = "python_version >= \"3\""}
+charset-normalizer = ">=2.0.0,<2.1.0"
+idna = ">=2.5,<4"
 urllib3 = ">=1.21.1,<1.27"
 
 [package.extras]
-socks = ["PySocks (>=1.5.6,!=1.5.7)", "win-inet-pton"]
+socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use_chardet_on_py3 = ["chardet (>=3.0.2,<5)"]
 
 [[package]]
@@ -702,7 +774,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "94f6b30b304e6b59448bf5014820ae27ced062f8365659ff3e67f14d1498cc11"
+content-hash = "19907135fceb67d22d77e80c9e09588d4f95c987515627d8a306f84247127cb0"
 
 [metadata.files]
 appnope = [
@@ -788,10 +860,6 @@ click = [
     {file = "click-8.1.2-py3-none-any.whl", hash = "sha256:24e1a4a9ec5bf6299411369b208c1df2188d9eb8d916302fe6bf03faed227f1e"},
     {file = "click-8.1.2.tar.gz", hash = "sha256:479707fe14d9ec9a0757618b7a100a0ae4c4e236fac5b7f80ca68028141a1a72"},
 ]
-click-didyoumean = [
-    {file = "click-didyoumean-0.3.0.tar.gz", hash = "sha256:f184f0d851d96b6d29297354ed981b7dd71df7ff500d82fa6d11f0856bee8035"},
-    {file = "click_didyoumean-0.3.0-py3-none-any.whl", hash = "sha256:a0713dc7a1de3f06bc0df5a9567ad19ead2d3d5689b434768a6145bff77c0667"},
-]
 colorama = [
     {file = "colorama-0.4.4-py2.py3-none-any.whl", hash = "sha256:9f47eda37229f68eee03b24b9748937c7dc3868f906e8ba69fbcbdd3bc5dc3e2"},
     {file = "colorama-0.4.4.tar.gz", hash = "sha256:5941b2b48a20143d2267e95b1c2a7603ce057ee39fd88e7329b0c292aa16869b"},
@@ -819,6 +887,30 @@ django-widget-tweaks = [
 executing = [
     {file = "executing-0.8.3-py2.py3-none-any.whl", hash = "sha256:d1eef132db1b83649a3905ca6dd8897f71ac6f8cac79a7e58a1a09cf137546c9"},
     {file = "executing-0.8.3.tar.gz", hash = "sha256:c6554e21c6b060590a6d3be4b82fb78f8f0194d809de5ea7df1c093763311501"},
+]
+forge-core = [
+    {file = "forge-core-0.1.1.tar.gz", hash = "sha256:06b936bec786284be602bf581400a5d7f6b01c24767b901352e9bd329de9b1d0"},
+    {file = "forge_core-0.1.1-py3-none-any.whl", hash = "sha256:dde898facfa3e17872785253208edab2e531a25b945731c52eb2dd93a8455803"},
+]
+forge-db = [
+    {file = "forge-db-0.1.1.tar.gz", hash = "sha256:801d8df09236ae429d71d4cf6483b5043c90d5ac987d7970f401198d28e88ae6"},
+    {file = "forge_db-0.1.1-py3-none-any.whl", hash = "sha256:c90de7ca1f1b742b55de9c3d7f46a24d88e65e0599b3ac9068c06d1c53f8ef6d"},
+]
+forge-format = [
+    {file = "forge-format-0.1.0.tar.gz", hash = "sha256:dc298ac315e373ef34ac2ba0a753daa9b0d6c23a8c435f83a45d6134d3e43ee3"},
+    {file = "forge_format-0.1.0-py3-none-any.whl", hash = "sha256:4d26dcaecfd8931ddf0b078b5d88e6bdfa06618c341a8f7a4d2227fc363483ae"},
+]
+forge-heroku = [
+    {file = "forge-heroku-0.1.0.tar.gz", hash = "sha256:fae88f866e20da25ca221548b5687d05110c7e73888bb2b386006d01b67de7a9"},
+    {file = "forge_heroku-0.1.0-py3-none-any.whl", hash = "sha256:8b4354dc0686f5905c508ce675a218d59dd8e877ad52895300d26c1fe7997e44"},
+]
+forge-tailwind = [
+    {file = "forge-tailwind-0.1.0.tar.gz", hash = "sha256:ac3db531294784f0050f984bb265dc8c39da75d9ec96244dcca43a8937d66cf0"},
+    {file = "forge_tailwind-0.1.0-py3-none-any.whl", hash = "sha256:b18dfbfc3f588abe7164f4c109b89accc7d08db9015d2e68f887a0abb9dace91"},
+]
+forge-work = [
+    {file = "forge-work-0.1.0.tar.gz", hash = "sha256:4b21a512cec9bdd2765eeac139631c97e98c3b30861e8820e964b6f17bdc72ce"},
+    {file = "forge_work-0.1.0-py3-none-any.whl", hash = "sha256:60a6fbade0bcf4d88cc02e449b5d8214905611aff3f18737dbc399394461cf59"},
 ]
 gunicorn = [
     {file = "gunicorn-20.1.0-py3-none-any.whl", hash = "sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e"},
@@ -1021,16 +1113,16 @@ pytest-django = [
     {file = "pytest_django-4.5.2-py3-none-any.whl", hash = "sha256:c60834861933773109334fe5a53e83d1ef4828f2203a1d6a0fa9972f4f75ab3e"},
 ]
 python-dotenv = [
-    {file = "python-dotenv-0.19.2.tar.gz", hash = "sha256:a5de49a31e953b45ff2d2fd434bbc2670e8db5273606c1e737cc6b93eff3655f"},
-    {file = "python_dotenv-0.19.2-py2.py3-none-any.whl", hash = "sha256:32b2bdc1873fd3a3c346da1c6db83d0053c3c62f28f1f38516070c4c8971b1d3"},
+    {file = "python-dotenv-0.20.0.tar.gz", hash = "sha256:b7e3b04a59693c42c36f9ab1cc2acc46fa5df8c78e178fc33a8d4cd05c8d498f"},
+    {file = "python_dotenv-0.20.0-py3-none-any.whl", hash = "sha256:d92a187be61fe482e4fd675b6d52200e7be63a12b724abbf931a40ce4fa92938"},
 ]
 redis = [
     {file = "redis-4.2.2-py3-none-any.whl", hash = "sha256:4e95f4ec5f49e636efcf20061a5a9110c20852f607cfca6865c07aaa8a739ee2"},
     {file = "redis-4.2.2.tar.gz", hash = "sha256:0107dc8e98a4f1d1d4aa00100e044287f77121a1e6d2085545c4b7fa94a7a27f"},
 ]
 requests = [
-    {file = "requests-2.27.1-py2.py3-none-any.whl", hash = "sha256:f22fa1e554c9ddfd16e6e41ac79759e17be9e492b3587efa038054674760e72d"},
-    {file = "requests-2.27.1.tar.gz", hash = "sha256:68d7c56fd5a8999887728ef304a6d12edc7be74f1cfa47714fc8b414525c9a61"},
+    {file = "requests-2.28.0-py3-none-any.whl", hash = "sha256:bc7861137fbce630f17b03d3ad02ad0bf978c844f3536d0edda6499dafce2b6f"},
+    {file = "requests-2.28.0.tar.gz", hash = "sha256:d568723a7ebd25875d8d1eaf5dfa068cd2fc8194b2e483d7b1f7c81918dbec6b"},
 ]
 six = [
     {file = "six-1.16.0-py2.py3-none-any.whl", hash = "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"},
