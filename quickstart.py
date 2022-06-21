@@ -15,7 +15,7 @@ When you're ready, try running this command again."""
 
 
 def event(text, *args, **kwargs):
-    print("\033[1m--> " + text + "\033[0m", *args, **kwargs)
+    print("\033[1m" + text + "\033[0m", *args, **kwargs)
 
 
 def main(project_name, template_source):
@@ -29,15 +29,20 @@ def main(project_name, template_source):
         print(f"{project_name} already exists")
         sys.exit(1)
 
-    event(f"Creating new repo from template ({template_source})")
-    subprocess.check_call(
-        ["git", "clone", "--depth", "1", template_source, project_name],
-        stdout=subprocess.DEVNULL,
-    )
+    if os.path.exists(template_source):
+        event(f"Copying local template ({template_source})")
+        subprocess.check_call(["cp", "-r", template_source, project_name])
+    else:
+        event(f"Creating new repo from template ({template_source})")
+        subprocess.check_call(
+            ["git", "clone", "--depth", "1", template_source, project_name],
+            stdout=subprocess.DEVNULL,
+        )
+
     shutil.rmtree(os.path.join(project_name, ".git"))
     subprocess.check_call(["git", "init"], cwd=project_name, stdout=subprocess.DEVNULL)
 
-    event("Installing dependencies (./scripts/install)")
+    print()
     subprocess.check_call(["./scripts/install"], cwd=project_name)
 
     print(
