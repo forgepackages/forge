@@ -6,7 +6,7 @@ packages = [
     { include = "forge" },
 ]
 
-version = "0.13.0"
+version = "0.14.0"
 description = "Quickly build a professional web app using Django."
 authors = ["Dave Gaeddert <dave.gaeddert@dropseed.dev>"]
 license = "MIT"
