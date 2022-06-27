@@ -215,3 +215,33 @@ if not DEBUG:
 
 # So we can use {% if debug %} in templates
 INTERNAL_IPS = ["127.0.0.1"]
+
+# Logging settings
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "[%(levelname)s] %(message)s",
+        }
+    },
+    "filters": {
+        "exclude_common_urls": {
+            "()": "forge.logging.ExcludeCommonURLsFilter",
+        },
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+            "filters": ["exclude_common_urls"],
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": environ.get("DJANGO_LOG_LEVEL", "INFO"),
+        }
+    },
+}
