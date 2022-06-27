@@ -3,3 +3,6 @@
 cd ..
 rm -rf forge-quickstart-test
 cat forge/quickstart.py | python3 - forge-quickstart-test --source ./starter-template
+cd forge-quickstart-test
+poetry remove forge
+poetry add ../forge
