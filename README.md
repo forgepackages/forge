@@ -72,6 +72,9 @@ A lot (but not all) of the Forge features can be integrated into existing projec
 - [forge-heroku](https://github.com/forgepackages/forge-heroku)
 - [forge-format](https://github.com/forgepackages/forge-format)
 
+You can also look at the [Forge starter-template](https://github.com/forgepackages/starter-template),
+which is what the quickstart uses to start a new project.
+
 
 ## Inspired by
 
