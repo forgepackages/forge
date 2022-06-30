@@ -206,7 +206,7 @@ python-versions = "*"
 
 [[package]]
 name = "forge-core"
-version = "0.3.1"
+version = "0.4.0"
 description = "Core library for Forge"
 category = "main"
 optional = false
@@ -233,57 +233,57 @@ requests = ">=2.28.0,<3.0.0"
 
 [[package]]
 name = "forge-format"
-version = "0.1.0"
+version = "0.2.0"
 description = "Formatting library for Forge"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-black = ">=22.3.0,<23.0.0"
-click = ">=8.1.0,<9.0.0"
-forge-core = "<1.0.0"
-isort = ">=5.10.1,<6.0.0"
+black = ">=22.0.0"
+click = ">=8.0.0"
+forge-core = ">=0.4.0,<1.0.0"
+isort = ">=5.0.0"
 python-dotenv = ">=0.20.0,<0.21.0"
 
 [[package]]
 name = "forge-heroku"
-version = "0.1.2"
+version = "0.2.0"
 description = "Work library for Forge"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-click = ">=8.1.0,<9.0.0"
+click = ">=2.0.0"
 forge-core = "<1.0.0"
 gunicorn = ">=20.1.0,<21.0.0"
 psycopg2-binary = ">=2.9.3,<3.0.0"
 
 [[package]]
 name = "forge-tailwind"
-version = "0.2.1"
+version = "0.3.0"
 description = "Work library for Forge"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-click = ">=8.1.0,<9.0.0"
+click = ">=8.0.0"
 forge-core = "<1.0.0"
-requests = ">=2.28.0,<3.0.0"
+requests = ">=2.0.0"
 
 [[package]]
 name = "forge-work"
-version = "0.1.1"
+version = "0.2.0"
 description = "Work library for Forge"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-click = ">=8.1.0,<9.0.0"
-forge-core = "<1.0.0"
+click = ">=8.0.0"
+forge-core = ">=0.4.0,<1.0.0"
 honcho = ">=1.1.0,<2.0.0"
 python-dotenv = ">=0.20.0,<0.21.0"
 
@@ -889,28 +889,28 @@ executing = [
     {file = "executing-0.8.3.tar.gz", hash = "sha256:c6554e21c6b060590a6d3be4b82fb78f8f0194d809de5ea7df1c093763311501"},
 ]
 forge-core = [
-    {file = "forge-core-0.3.1.tar.gz", hash = "sha256:cc5a7d1d1aefb45fe71989f320ed4b480128d69ba084e07e645629c694ae28ed"},
-    {file = "forge_core-0.3.1-py3-none-any.whl", hash = "sha256:882d1ba952b0d5fe87d7571de8fcd4da1fb0a294800397e8f88946e97157d51e"},
+    {file = "forge-core-0.4.0.tar.gz", hash = "sha256:a0c01321638049536ec7b4aa7293c3716b615f846a6046281ecf69853d469423"},
+    {file = "forge_core-0.4.0-py3-none-any.whl", hash = "sha256:cf45e2753ccdcd9b8de8cde558c8f403b31a04c0e0b2703fd5aec64bc3a589d3"},
 ]
 forge-db = [
     {file = "forge-db-0.1.1.tar.gz", hash = "sha256:801d8df09236ae429d71d4cf6483b5043c90d5ac987d7970f401198d28e88ae6"},
     {file = "forge_db-0.1.1-py3-none-any.whl", hash = "sha256:c90de7ca1f1b742b55de9c3d7f46a24d88e65e0599b3ac9068c06d1c53f8ef6d"},
 ]
 forge-format = [
-    {file = "forge-format-0.1.0.tar.gz", hash = "sha256:dc298ac315e373ef34ac2ba0a753daa9b0d6c23a8c435f83a45d6134d3e43ee3"},
-    {file = "forge_format-0.1.0-py3-none-any.whl", hash = "sha256:4d26dcaecfd8931ddf0b078b5d88e6bdfa06618c341a8f7a4d2227fc363483ae"},
+    {file = "forge-format-0.2.0.tar.gz", hash = "sha256:ed3bba4c189dfecfff2677a6d986ef0ae4958bb740850aebe590a9ab1047fa8f"},
+    {file = "forge_format-0.2.0-py3-none-any.whl", hash = "sha256:c5635279dfa7bf06e25dec9f8d60694e9a3457eea27e1beeb42d2ad7a49421b6"},
 ]
 forge-heroku = [
-    {file = "forge-heroku-0.1.2.tar.gz", hash = "sha256:892f574262b1aba56519577249982121c8815f3edded3aa431fffb5386c74ee4"},
-    {file = "forge_heroku-0.1.2-py3-none-any.whl", hash = "sha256:53f10ea53e11305b2e53efba609297f27d927489ed70b2a393ad2931528f03d4"},
+    {file = "forge-heroku-0.2.0.tar.gz", hash = "sha256:0c05a5152057e68bbb437577641590957d997f27ee12ef865d37f7ee0fa5bb25"},
+    {file = "forge_heroku-0.2.0-py3-none-any.whl", hash = "sha256:e6347446a8a1cceccc1111675c3574cc27ea974867bed6ed8ce797a07b48e07f"},
 ]
 forge-tailwind = [
-    {file = "forge-tailwind-0.2.1.tar.gz", hash = "sha256:db3fa48af48d934ed4913e02dcf132523c754ebe7509431e641cc38d16c51d7a"},
-    {file = "forge_tailwind-0.2.1-py3-none-any.whl", hash = "sha256:95d325d3d851124f09a47b772d7550ca4e6a419fee495f37dd8f35d5d59dadf3"},
+    {file = "forge-tailwind-0.3.0.tar.gz", hash = "sha256:aec435a4e46bb0c2be76e41842b4f770aabf2191ba547f5a5852fc92abea87b5"},
+    {file = "forge_tailwind-0.3.0-py3-none-any.whl", hash = "sha256:8c86774498587eea4c20b4b940fa9a6363f49501f2626247de0187bcf25a716e"},
 ]
 forge-work = [
-    {file = "forge-work-0.1.1.tar.gz", hash = "sha256:c2c32bd4596dc3d03fe90424d00b29166095b1b8b1e2d52b867b4af8629c6e70"},
-    {file = "forge_work-0.1.1-py3-none-any.whl", hash = "sha256:34b9fdc68c3b0a796901ee9e18854b9656e9460d2d521d7fada5fe705f2412c3"},
+    {file = "forge-work-0.2.0.tar.gz", hash = "sha256:9eabd3689e16acdbe76718870314610857d67b990a396e1b363f2afb81f0fa9b"},
+    {file = "forge_work-0.2.0-py3-none-any.whl", hash = "sha256:fb4e4025e1870ababa5e48e778c6bff47ddbfc40aa880554a2e437192b8fc199"},
 ]
 gunicorn = [
     {file = "gunicorn-20.1.0-py3-none-any.whl", hash = "sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e"},

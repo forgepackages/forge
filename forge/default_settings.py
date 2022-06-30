@@ -40,6 +40,11 @@ INSTALLED_APPS = [
     # forge apps
     "forge",
     "forgework",
+    "forgetailwind",
+    "forgeformat",
+    "forgedb",
+    "forgeheroku",
+    # third-party apps
     "widget_tweaks",
 ]
 
