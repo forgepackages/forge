@@ -57,7 +57,7 @@ We're also able to make some decisions about what tools you use *with* Django --
 - Manage Python dependencies using [Poetry](https://python-poetry.org/)
 - Style using [Tailwind CSS](https://tailwindcss.com/)
 - Format your code using [black](https://github.com/psf/black) and [isort](https://github.com/PyCQA/isort)
-- CI testing with GitHub Actions
+- CI testing with [GitHub Actions](https://github.com/features/actions)
 
 All of this comes together with a `forge` CLI.
 
