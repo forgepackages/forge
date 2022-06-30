@@ -4,5 +4,7 @@ cd ..
 rm -rf forge-quickstart-test
 cat forge/quickstart.py | python3 - forge-quickstart-test --source ./starter-template
 cd forge-quickstart-test
-poetry remove forge
+rm -rf .venv
+export POETRY_VIRTUALENVS_IN_PROJECT=true
 poetry add ../forge
+poetry update
