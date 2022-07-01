@@ -218,18 +218,18 @@ python-dotenv = ">=0.20.0,<0.21.0"
 
 [[package]]
 name = "forge-db"
-version = "0.1.1"
+version = "0.2.0"
 description = "Work library for Forge"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-click = ">=8.1.0,<9.0.0"
+click = ">=8.0.0"
 dj-database-url = ">=0.5.0,<0.6.0"
-forge-core = "<1.0.0"
+forge-core = ">=0.4.0,<1.0.0"
 psycopg2-binary = ">=2.9.3,<3.0.0"
-requests = ">=2.28.0,<3.0.0"
+requests = ">=2.0.0"
 
 [[package]]
 name = "forge-format"
@@ -893,8 +893,8 @@ forge-core = [
     {file = "forge_core-0.4.0-py3-none-any.whl", hash = "sha256:cf45e2753ccdcd9b8de8cde558c8f403b31a04c0e0b2703fd5aec64bc3a589d3"},
 ]
 forge-db = [
-    {file = "forge-db-0.1.1.tar.gz", hash = "sha256:801d8df09236ae429d71d4cf6483b5043c90d5ac987d7970f401198d28e88ae6"},
-    {file = "forge_db-0.1.1-py3-none-any.whl", hash = "sha256:c90de7ca1f1b742b55de9c3d7f46a24d88e65e0599b3ac9068c06d1c53f8ef6d"},
+    {file = "forge-db-0.2.0.tar.gz", hash = "sha256:a5f875384339c216c74376ae0e87431814d64a9deb63e073a11eeb9df118e3c4"},
+    {file = "forge_db-0.2.0-py3-none-any.whl", hash = "sha256:2a06b8de3527f8bd97332ece118fbc4c24ba434b0537c383cd71bbf051acff7a"},
 ]
 forge-format = [
     {file = "forge-format-0.2.0.tar.gz", hash = "sha256:ed3bba4c189dfecfff2677a6d986ef0ae4958bb740850aebe590a9ab1047fa8f"},
