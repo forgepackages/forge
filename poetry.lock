@@ -164,11 +164,14 @@ dev = ["tox", "bump2version (<1)", "sphinx (<2)", "importlib-metadata (<3)", "im
 
 [[package]]
 name = "dj-database-url"
-version = "0.5.0"
+version = "1.0.0"
 description = "Use Database URLs in your Django Application."
 category = "main"
 optional = false
 python-versions = "*"
+
+[package.dependencies]
+Django = ">3.2"
 
 [[package]]
 name = "django"
@@ -218,7 +221,7 @@ python-dotenv = ">=0.20.0,<0.21.0"
 
 [[package]]
 name = "forge-db"
-version = "0.2.0"
+version = "0.3.0"
 description = "Work library for Forge"
 category = "main"
 optional = false
@@ -226,7 +229,7 @@ python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
 click = ">=8.0.0"
-dj-database-url = ">=0.5.0,<0.6.0"
+dj-database-url = ">=1.0.0,<2.0.0"
 forge-core = ">=0.4.0,<1.0.0"
 psycopg2-binary = ">=2.9.3,<3.0.0"
 requests = ">=2.0.0"
@@ -506,8 +509,8 @@ optional = false
 python-versions = ">=3.6"
 
 [package.extras]
-dev = ["pre-commit", "tox"]
-testing = ["pytest", "pytest-benchmark"]
+testing = ["pytest-benchmark", "pytest"]
+dev = ["tox", "pre-commit"]
 
 [[package]]
 name = "prompt-toolkit"
@@ -686,7 +689,7 @@ executing = "*"
 pure-eval = "*"
 
 [package.extras]
-tests = ["pytest", "typeguard", "pygments", "littleutils", "cython"]
+tests = ["cython", "littleutils", "pygments", "typeguard", "pytest"]
 
 [[package]]
 name = "toml"
@@ -774,7 +777,7 @@ python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,>=2.7"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "9745343b0f059c8f0dedc8d68b0dbbfec646d95a841673361c2f74e6462f4276"
+content-hash = "d7becd71d5bd2471b5a3803270ca87e65308aba41e286d719646a40360f4421b"
 
 [metadata.files]
 appnope = [
@@ -873,8 +876,8 @@ deprecated = [
     {file = "Deprecated-1.2.13.tar.gz", hash = "sha256:43ac5335da90c31c24ba028af536a91d41d53f9e6901ddb021bcc572ce44e38d"},
 ]
 dj-database-url = [
-    {file = "dj-database-url-0.5.0.tar.gz", hash = "sha256:4aeaeb1f573c74835b0686a2b46b85990571159ffc21aa57ecd4d1e1cb334163"},
-    {file = "dj_database_url-0.5.0-py2.py3-none-any.whl", hash = "sha256:851785365761ebe4994a921b433062309eb882fedd318e1b0fcecc607ed02da9"},
+    {file = "dj-database-url-1.0.0.tar.gz", hash = "sha256:ccf3e8718f75ddd147a1e212fca88eecdaa721759ee48e38b485481c77bca3dc"},
+    {file = "dj_database_url-1.0.0-py3-none-any.whl", hash = "sha256:cd354a3b7a9136d78d64c17b2aec369e2ae5616fbca6bfbe435ef15bb372ce39"},
 ]
 django = [
     {file = "Django-4.0.5-py3-none-any.whl", hash = "sha256:502ae42b6ab1b612c933fb50d5ff850facf858a4c212f76946ecd8ea5b3bf2d9"},
@@ -893,8 +896,8 @@ forge-core = [
     {file = "forge_core-0.4.0-py3-none-any.whl", hash = "sha256:cf45e2753ccdcd9b8de8cde558c8f403b31a04c0e0b2703fd5aec64bc3a589d3"},
 ]
 forge-db = [
-    {file = "forge-db-0.2.0.tar.gz", hash = "sha256:a5f875384339c216c74376ae0e87431814d64a9deb63e073a11eeb9df118e3c4"},
-    {file = "forge_db-0.2.0-py3-none-any.whl", hash = "sha256:2a06b8de3527f8bd97332ece118fbc4c24ba434b0537c383cd71bbf051acff7a"},
+    {file = "forge-db-0.3.0.tar.gz", hash = "sha256:537e4989882404e360fd03b63666e2e5f3c95deaab5aa67644670160f681b9e3"},
+    {file = "forge_db-0.3.0-py3-none-any.whl", hash = "sha256:94c1f1d104de7d4e66144d5c28e58b86b6ca4d276804b5a255f4e862f8b2293e"},
 ]
 forge-format = [
     {file = "forge-format-0.2.0.tar.gz", hash = "sha256:ed3bba4c189dfecfff2677a6d986ef0ae4958bb740850aebe590a9ab1047fa8f"},

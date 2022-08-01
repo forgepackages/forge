@@ -27,14 +27,14 @@ forge-core = "<1.0.0"
 forge-format = "<1.0.0"
 forge-work = "<1.0.0"
 forge-heroku = "<1.0.0"
-forge-db = "<1.0.0"
+forge-db = "^0.3.0"
 forge-tailwind = "<1.0.0"
 
 Django = "^4.0"
 django-widget-tweaks = "^1.4.12"
 
 # Part of settings
-dj-database-url = "^0.5.0"
+dj-database-url = "^1.0.0"
 whitenoise = "^6.0.0"
 python-dotenv = "^0.20.0"
 
