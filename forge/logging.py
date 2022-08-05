@@ -2,6 +2,8 @@ import logging
 
 from django.conf import settings
 
+app_logger = logging.getLogger("app")
+
 
 class ExcludeCommonURLsFilter(logging.Filter):
     def __init__(self):

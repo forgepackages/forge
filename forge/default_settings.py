@@ -240,13 +240,17 @@ LOGGING = {
         "console": {
             "class": "logging.StreamHandler",
             "formatter": "simple",
-            "filters": ["exclude_common_urls"],
         },
     },
     "loggers": {
         "django": {
             "handlers": ["console"],
             "level": environ.get("DJANGO_LOG_LEVEL", "INFO"),
-        }
+            "filters": ["exclude_common_urls"],
+        },
+        "app": {
+            "handlers": ["console"],
+            "level": environ.get("APP_LOG_LEVEL", "INFO"),
+        },
     },
 }
