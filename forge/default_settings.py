@@ -2,6 +2,7 @@ from os import environ
 from pathlib import Path
 
 import dj_database_url
+import redis
 from dotenv import load_dotenv
 from forgecore import Forge
 
@@ -94,10 +95,19 @@ DATABASES = {
 # Caching
 # https://docs.djangoproject.com/en/4.0/topics/cache/
 if environ.get("REDIS_URL", ""):
+    if environ["REDIS_URL"].startswith("rediss://"):
+        options = {
+            "connection_class": redis.SSLConnection,
+            "ssl_cert_reqs": environ.get("REDIS_SSL_CERT_REQS", "required"),
+        }
+    else:
+        options = {}
+
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
             "LOCATION": environ["REDIS_URL"],
+            "OPTIONS": options,
         }
     }
 
