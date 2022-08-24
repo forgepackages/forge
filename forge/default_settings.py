@@ -27,8 +27,7 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-    # These have templates that take priority of Django's
-    "forge.auth",
+    # Includes templates that need to override Django's default templates
     "forge.forms",
     # django apps
     "django.contrib.admin",
