@@ -24,11 +24,13 @@ forge = "forge.cli:cli"
 python = "^3.8"
 
 forge-core = "<1.0.0"
-forge-format = "<1.0.0"
-forge-work = "<1.0.0"
 forge-heroku = "<1.0.0"
 forge-db = "^0.3.0"
 forge-tailwind = "<1.0.0"
+
+# Could/should be dev dependencies in project? (and forge-test for pytest)
+forge-format = "<1.0.0"
+forge-work = "<1.0.0"
 
 Django = "^4.0"
 django-widget-tweaks = "^1.4.12"
@@ -46,9 +48,9 @@ redis = "^4.2.2"
 hiredis = "^2.0.0"
 
 # Testing and debugging
-ipdb = "^0.13.9"
 pytest = "^7.0.0"
 pytest-django = "^4.5.2"
+ipython = "^8.5.0"
 
 
 [tool.poetry.dev-dependencies]
