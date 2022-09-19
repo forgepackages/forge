@@ -236,7 +236,7 @@ requests = ">=2.0.0"
 
 [[package]]
 name = "forge-format"
-version = "0.2.0"
+version = "0.3.0"
 description = "Formatting library for Forge"
 category = "main"
 optional = false
@@ -247,7 +247,7 @@ black = ">=22.0.0"
 click = ">=8.0.0"
 forge-core = ">=0.4.0,<1.0.0"
 isort = ">=5.0.0"
-python-dotenv = ">=0.20.0,<0.21.0"
+python-dotenv = "*"
 
 [[package]]
 name = "forge-heroku"
@@ -936,8 +936,8 @@ forge-db = [
     {file = "forge_db-0.3.3-py3-none-any.whl", hash = "sha256:b68638f5c27aea2f2929ba031805d6495424f1ce7b5bdbd2cc18bcaa2ae1aaec"},
 ]
 forge-format = [
-    {file = "forge-format-0.2.0.tar.gz", hash = "sha256:ed3bba4c189dfecfff2677a6d986ef0ae4958bb740850aebe590a9ab1047fa8f"},
-    {file = "forge_format-0.2.0-py3-none-any.whl", hash = "sha256:c5635279dfa7bf06e25dec9f8d60694e9a3457eea27e1beeb42d2ad7a49421b6"},
+    {file = "forge-format-0.3.0.tar.gz", hash = "sha256:86ece9f8b588813da953c93d774af9081e3af6d8b62cd1f32089ecbbd9b225fe"},
+    {file = "forge_format-0.3.0-py3-none-any.whl", hash = "sha256:2b36140a55339b4c949b39a7a11ac3caf16227aae90b535d36f50e589030b66e"},
 ]
 forge-heroku = [
     {file = "forge-heroku-0.2.0.tar.gz", hash = "sha256:0c05a5152057e68bbb437577641590957d997f27ee12ef865d37f7ee0fa5bb25"},
