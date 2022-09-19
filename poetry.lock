@@ -96,7 +96,7 @@ uvloop = ["uvloop (>=0.15.2)"]
 
 [[package]]
 name = "certifi"
-version = "2022.6.15.1"
+version = "2022.9.14"
 description = "Python package for providing Mozilla's CA Bundle."
 category = "main"
 optional = false
@@ -131,6 +131,14 @@ description = "Cross-platform colored terminal text."
 category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+
+[[package]]
+name = "debugpy"
+version = "1.6.3"
+description = "An implementation of the Debug Adapter Protocol for Python"
+category = "main"
+optional = false
+python-versions = ">=3.7"
 
 [[package]]
 name = "decorator"
@@ -213,7 +221,7 @@ python-dotenv = ">=0.20.0,<0.21.0"
 
 [[package]]
 name = "forge-db"
-version = "0.3.1"
+version = "0.3.3"
 description = "Work library for Forge"
 category = "main"
 optional = false
@@ -270,7 +278,7 @@ requests = ">=2.0.0"
 
 [[package]]
 name = "forge-work"
-version = "0.3.0"
+version = "0.4.0"
 description = "Work library for Forge"
 category = "main"
 optional = false
@@ -278,6 +286,7 @@ python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
 click = ">=8.0.0"
+debugpy = ">=1.6.3,<2.0.0"
 forge-core = ">=0.4.0,<1.0.0"
 honcho = ">=1.1.0,<2.0.0"
 python-dotenv = ">=0.20.0,<0.21.0"
@@ -323,7 +332,7 @@ export = ["jinja2 (>=2.7,<3)"]
 
 [[package]]
 name = "idna"
-version = "3.3"
+version = "3.4"
 description = "Internationalized Domain Names in Applications (IDNA)"
 category = "main"
 optional = false
@@ -720,7 +729,7 @@ python-versions = ">=3.7"
 
 [[package]]
 name = "traitlets"
-version = "5.3.0"
+version = "5.4.0"
 description = ""
 category = "main"
 optional = false
@@ -859,8 +868,8 @@ black = [
     {file = "black-22.8.0.tar.gz", hash = "sha256:792f7eb540ba9a17e8656538701d3eb1afcb134e3b45b71f20b25c77a8db7e6e"},
 ]
 certifi = [
-    {file = "certifi-2022.6.15.1-py3-none-any.whl", hash = "sha256:43dadad18a7f168740e66944e4fa82c6611848ff9056ad910f8f7a3e46ab89e0"},
-    {file = "certifi-2022.6.15.1.tar.gz", hash = "sha256:cffdcd380919da6137f76633531a5817e3a9f268575c128249fb637e4f9e73fb"},
+    {file = "certifi-2022.9.14-py3-none-any.whl", hash = "sha256:e232343de1ab72c2aa521b625c80f699e356830fd0e2c620b465b304b17b0516"},
+    {file = "certifi-2022.9.14.tar.gz", hash = "sha256:36973885b9542e6bd01dea287b2b4b3b21236307c56324fcc3f1160f2d655ed5"},
 ]
 charset-normalizer = [
     {file = "charset-normalizer-2.1.1.tar.gz", hash = "sha256:5a3d016c7c547f69d6f81fb0db9449ce888b418b5b9952cc5e6e66843e9dd845"},
@@ -873,6 +882,26 @@ click = [
 colorama = [
     {file = "colorama-0.4.5-py2.py3-none-any.whl", hash = "sha256:854bf444933e37f5824ae7bfc1e98d5bce2ebe4160d46b5edf346a89358e99da"},
     {file = "colorama-0.4.5.tar.gz", hash = "sha256:e6c6b4334fc50988a639d9b98aa429a0b57da6e17b9a44f0451f930b6967b7a4"},
+]
+debugpy = [
+    {file = "debugpy-1.6.3-cp310-cp310-macosx_10_15_x86_64.whl", hash = "sha256:c4b2bd5c245eeb49824bf7e539f95fb17f9a756186e51c3e513e32999d8846f3"},
+    {file = "debugpy-1.6.3-cp310-cp310-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:b8deaeb779699350deeed835322730a3efec170b88927debc9ba07a1a38e2585"},
+    {file = "debugpy-1.6.3-cp310-cp310-win32.whl", hash = "sha256:fc233a0160f3b117b20216f1169e7211b83235e3cd6749bcdd8dbb72177030c7"},
+    {file = "debugpy-1.6.3-cp310-cp310-win_amd64.whl", hash = "sha256:dda8652520eae3945833e061cbe2993ad94a0b545aebd62e4e6b80ee616c76b2"},
+    {file = "debugpy-1.6.3-cp37-cp37m-macosx_10_15_x86_64.whl", hash = "sha256:d5c814596a170a0a58fa6fad74947e30bfd7e192a5d2d7bd6a12156c2899e13a"},
+    {file = "debugpy-1.6.3-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:c4cd6f37e3c168080d61d698390dfe2cd9e74ebf80b448069822a15dadcda57d"},
+    {file = "debugpy-1.6.3-cp37-cp37m-win32.whl", hash = "sha256:3c9f985944a30cfc9ae4306ac6a27b9c31dba72ca943214dad4a0ab3840f6161"},
+    {file = "debugpy-1.6.3-cp37-cp37m-win_amd64.whl", hash = "sha256:5ad571a36cec137ae6ed951d0ff75b5e092e9af6683da084753231150cbc5b25"},
+    {file = "debugpy-1.6.3-cp38-cp38-macosx_10_15_x86_64.whl", hash = "sha256:adcfea5ea06d55d505375995e150c06445e2b20cd12885bcae566148c076636b"},
+    {file = "debugpy-1.6.3-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:daadab4403427abd090eccb38d8901afd8b393e01fd243048fab3f1d7132abb4"},
+    {file = "debugpy-1.6.3-cp38-cp38-win32.whl", hash = "sha256:6efc30325b68e451118b795eff6fe8488253ca3958251d5158106d9c87581bc6"},
+    {file = "debugpy-1.6.3-cp38-cp38-win_amd64.whl", hash = "sha256:86d784b72c5411c833af1cd45b83d80c252b77c3bfdb43db17c441d772f4c734"},
+    {file = "debugpy-1.6.3-cp39-cp39-macosx_10_15_x86_64.whl", hash = "sha256:4e255982552b0edfe3a6264438dbd62d404baa6556a81a88f9420d3ed79b06ae"},
+    {file = "debugpy-1.6.3-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl", hash = "sha256:cca23cb6161ac89698d629d892520327dd1be9321c0960e610bbcb807232b45d"},
+    {file = "debugpy-1.6.3-cp39-cp39-win32.whl", hash = "sha256:7c302095a81be0d5c19f6529b600bac971440db3e226dce85347cc27e6a61908"},
+    {file = "debugpy-1.6.3-cp39-cp39-win_amd64.whl", hash = "sha256:34d2cdd3a7c87302ba5322b86e79c32c2115be396f3f09ca13306d8a04fe0f16"},
+    {file = "debugpy-1.6.3-py2.py3-none-any.whl", hash = "sha256:84c39940a0cac410bf6aa4db00ba174f973eef521fbe9dd058e26bcabad89c4f"},
+    {file = "debugpy-1.6.3.zip", hash = "sha256:e8922090514a890eec99cfb991bab872dd2e353ebb793164d5f01c362b9a40bf"},
 ]
 decorator = [
     {file = "decorator-5.1.1-py3-none-any.whl", hash = "sha256:b8c3f85900b9dc423225913c5aace94729fe1fa9763b38939a95226f02d37186"},
@@ -903,8 +932,8 @@ forge-core = [
     {file = "forge_core-0.4.0-py3-none-any.whl", hash = "sha256:cf45e2753ccdcd9b8de8cde558c8f403b31a04c0e0b2703fd5aec64bc3a589d3"},
 ]
 forge-db = [
-    {file = "forge-db-0.3.1.tar.gz", hash = "sha256:63cff97c68e23bf0a9a2122c3bbe3f6f0419d9c69dfb41875dc249042968658a"},
-    {file = "forge_db-0.3.1-py3-none-any.whl", hash = "sha256:2b7b747169c95c69ee363293c2a138116851a31d65d5d5f2e6c59ea4e020bf0c"},
+    {file = "forge-db-0.3.3.tar.gz", hash = "sha256:e6bdd602d268c2a9ded76c7ee44ab416a682972b15aa76250facce69d095d6e2"},
+    {file = "forge_db-0.3.3-py3-none-any.whl", hash = "sha256:b68638f5c27aea2f2929ba031805d6495424f1ce7b5bdbd2cc18bcaa2ae1aaec"},
 ]
 forge-format = [
     {file = "forge-format-0.2.0.tar.gz", hash = "sha256:ed3bba4c189dfecfff2677a6d986ef0ae4958bb740850aebe590a9ab1047fa8f"},
@@ -919,8 +948,8 @@ forge-tailwind = [
     {file = "forge_tailwind-0.3.3-py3-none-any.whl", hash = "sha256:d5a657c66fd63a5fd2776498b7c8c13f8d7a7aba203c758d16480123dd2aa451"},
 ]
 forge-work = [
-    {file = "forge-work-0.3.0.tar.gz", hash = "sha256:efafbc8686723ec726e0c5c3e18dbc113480992e44860519516debadcd2837a4"},
-    {file = "forge_work-0.3.0-py3-none-any.whl", hash = "sha256:74605166be8f520e2c47072c85429b2f8b0a9e0db204ad7b32837052b9155a45"},
+    {file = "forge-work-0.4.0.tar.gz", hash = "sha256:5350cfc4c417fdd15ba8cfd3672f13c2ce87c4785c07e9cc61ee0a8097b9cdd9"},
+    {file = "forge_work-0.4.0-py3-none-any.whl", hash = "sha256:507b063a9b8752237a3427c1555c6303d0f538b52abeac1d68c3c9326388030f"},
 ]
 gunicorn = [
     {file = "gunicorn-20.1.0-py3-none-any.whl", hash = "sha256:9dcc4547dbb1cb284accfb15ab5667a0e5d1881cc443e0677b4882a4067a807e"},
@@ -974,8 +1003,8 @@ honcho = [
     {file = "honcho-1.1.0.tar.gz", hash = "sha256:c5eca0bded4bef6697a23aec0422fd4f6508ea3581979a3485fc4b89357eb2a9"},
 ]
 idna = [
-    {file = "idna-3.3-py3-none-any.whl", hash = "sha256:84d9dd047ffa80596e0f246e2eab0b391788b0503584e8945f2368256d2735ff"},
-    {file = "idna-3.3.tar.gz", hash = "sha256:9d643ff0a55b762d5cdb124b8eaa99c66322e2157b69160bc32796e824360e6d"},
+    {file = "idna-3.4-py3-none-any.whl", hash = "sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2"},
+    {file = "idna-3.4.tar.gz", hash = "sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4"},
 ]
 iniconfig = [
     {file = "iniconfig-1.1.1-py2.py3-none-any.whl", hash = "sha256:011e24c64b7f47f6ebd835bb12a743f2fbe9a26d4cecaa7f53bc4f35ee9da8b3"},
@@ -1159,8 +1188,8 @@ tomli = [
     {file = "tomli-2.0.1.tar.gz", hash = "sha256:de526c12914f0c550d15924c62d72abc48d6fe7364aa87328337a31007fe8a4f"},
 ]
 traitlets = [
-    {file = "traitlets-5.3.0-py3-none-any.whl", hash = "sha256:65fa18961659635933100db8ca120ef6220555286949774b9cfc106f941d1c7a"},
-    {file = "traitlets-5.3.0.tar.gz", hash = "sha256:0bb9f1f9f017aa8ec187d8b1b2a7a6626a2a1d877116baba52a129bfa124f8e2"},
+    {file = "traitlets-5.4.0-py3-none-any.whl", hash = "sha256:93663cc8236093d48150e2af5e2ed30fc7904a11a6195e21bab0408af4e6d6c8"},
+    {file = "traitlets-5.4.0.tar.gz", hash = "sha256:3f2c4e435e271592fe4390f1746ea56836e3a080f84e7833f0f801d9613fec39"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.3.0-py3-none-any.whl", hash = "sha256:25642c956049920a5aa49edcdd6ab1e06d7e5d467fc00e0506c44ac86fbfca02"},
