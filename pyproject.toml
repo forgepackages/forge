@@ -38,7 +38,7 @@ django-widget-tweaks = "^1.4.12"
 # Part of settings
 dj-database-url = "^1.0.0"
 whitenoise = "^6.0.0"
-python-dotenv = "^0.20.0"
+python-dotenv = "*"  # forge-core specifies a stricter version, just want to be clear we need it here too
 
 # CLI
 click = "^8.1.0"
