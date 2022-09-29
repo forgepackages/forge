@@ -12,9 +12,9 @@
         {% if field.label %}<label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-800">{{ field.label }}</label>{% endif %}
         <div class="mt-1">
             {% if errors %}
-                {{ field|add_class:"block w-full border border-red-600 rounded text-sm read-only:bg-gray-100 read-only:cursor-not-allowed" }}
+                {{ field|add_class:"block w-full border border-red-600 rounded text-sm" }}
             {% else %}
-                {{ field|add_class:"block w-full border border-gray-300 rounded text-sm read-only:bg-gray-100 read-only:cursor-not-allowed" }}
+                {{ field|add_class:"block w-full border border-gray-300 rounded text-sm" }}
             {% endif %}
         </div>
         {% if errors %}
