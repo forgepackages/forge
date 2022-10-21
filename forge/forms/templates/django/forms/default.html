@@ -11,7 +11,9 @@
     <div{% with classes=field.css_classes %}{% if classes %} class="{{ classes }}"{% endif %}{% endwith %}>
         {% if field.label %}<label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-800">{{ field.label }}</label>{% endif %}
         <div class="mt-1">
-            {% if errors %}
+            {% if field.field.widget.input_type == "checkbox" %}
+                {{ field|add_class:"rounded" }}
+            {% elif errors %}
                 {{ field|add_class:"block w-full border border-red-600 rounded text-sm" }}
             {% else %}
                 {{ field|add_class:"block w-full border border-gray-300 rounded text-sm" }}
