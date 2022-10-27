@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.checks import Error, Tags, register
 from django.db import connection
 
@@ -10,11 +11,17 @@ def check_database_tables(app_configs, **kwargs):
 
     errors = []
 
+    cache_tables = [
+        x["LOCATION"]
+        for x in settings.CACHES.values()
+        if x["BACKEND"] == "django.core.cache.backends.db.DatabaseCache"
+    ]
+
     for database in databases:
         db_tables = connection.introspection.table_names()
         model_tables = connection.introspection.django_table_names()
 
-        unknown_tables = set(db_tables) - set(model_tables)
+        unknown_tables = set(db_tables) - set(model_tables) - set(cache_tables)
         unknown_tables.discard("django_migrations")  # Know this could be there
         if unknown_tables:
             table_names = ", ".join(unknown_tables)
