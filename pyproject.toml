@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "forge"
-version = "0.18.5"
+version = "0.18.6"
 description = "Quickly build a professional web app using Django."
 authors = ["Dave Gaeddert <dave.gaeddert@dropseed.dev>"]
 license = "MIT"
