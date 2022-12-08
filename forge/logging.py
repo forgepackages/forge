@@ -65,7 +65,7 @@ class KVLogger:
             # Escape quotes and surround it
             s = s.replace('"', '\\"')
             s = f'"{s}"'
-        elif any(char in s for char in [" ", "/", "'", ":", "="]):
+        elif any(char in s for char in [" ", "/", "'", ":", "=", "."]):
             # Surround these with quotes for parsers
             s = f'"{s}"'
 
