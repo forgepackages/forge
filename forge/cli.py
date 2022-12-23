@@ -28,8 +28,9 @@ class NamespaceGroup(click.Group):
         try:
             i = importlib.import_module(import_name)
             return i.cli
-        except ImportError as e:
-            # Built-in commands will appear here, but so would failed imports of new ones
+        except ImportError:
+            # Built-in commands will appear here,
+            # but so would failed imports of new ones
             pass
         except AttributeError as e:
             click.secho(f'Error importing "{import_name}":\n  {e}\n', fg="red")
@@ -93,20 +94,19 @@ def pre_commit(ctx, install):
         else:
             with open(hook_path, "w") as f:
                 f.write(
-                    f"""#!/bin/sh
+                    """#!/bin/sh
 forge pre-commit"""
                 )
             os.chmod(hook_path, 0o755)
             print("pre-commit hook installed")
     else:
-        try:
-            from forgeformat import cli as format_cmd
+        click.secho("Linting with ruff", bold=True)
+        forge.venv_cmd("ruff", forge.project_dir)
+        click.echo()
 
-            click.secho("Checking formatting", bold=True)
-            ctx.invoke(format_cmd, check=True)
-            click.echo()
-        except ImportError:
-            pass
+        click.secho("Checking formatting with black", bold=True)
+        forge.venv_cmd("black", "--check", forge.project_dir)
+        click.echo()
 
         click.secho("Checking database connection", bold=True)
         if forge.manage_cmd("dbconnected").returncode:
@@ -125,6 +125,53 @@ forge pre-commit"""
         click.echo()
         click.secho("Running tests", bold=True)
         ctx.invoke(test)
+
+
+@click.command("format")  # format is a keyword
+@click.option("--check", is_flag=True)
+@click.option("--black", is_flag=True, default=True)
+@click.option("--ruff", is_flag=True, default=True)
+def fmt(check, black, ruff):
+    """
+    Format Python code with black and ruff
+
+    Runs ruff first, then black to do final re-formatting of any ruff fixes.
+    """
+    forge = Forge()
+
+    # Make relative for nicer output
+    target = os.path.relpath(forge.project_dir)
+
+    if ruff:
+        click.secho("Fixing with ruff", bold=True)
+
+        if check:
+            ruff_args = [target]
+        else:
+            ruff_args = ["--fix", target]
+
+        forge.venv_cmd(
+            "ruff",
+            *ruff_args,
+            check=False,  # ruff --fix will still show unfixable errors right now...
+        )
+
+    if black and ruff:
+        click.echo()
+
+    if black:
+        click.secho("Formatting with black", bold=True)
+
+        if check:
+            black_args = ["--check", target]
+        else:
+            black_args = [target]
+
+        forge.venv_cmd(
+            "black",
+            *black_args,
+            check=True,
+        )
 
 
 @cli.command(

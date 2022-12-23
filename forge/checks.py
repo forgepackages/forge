@@ -25,11 +25,18 @@ def check_database_tables(app_configs, **kwargs):
         unknown_tables.discard("django_migrations")  # Know this could be there
         if unknown_tables:
             table_names = ", ".join(unknown_tables)
-            specific_hint = f'echo "DROP TABLE IF EXISTS {unknown_tables.pop()}" | forge django dbshell'
+            specific_hint = (
+                f'echo "DROP TABLE IF EXISTS {unknown_tables.pop()}" | '
+                + "forge django dbshell"
+            )
             errors.append(
                 Error(
                     f"Unknown tables in {database} database: {table_names}",
-                    hint=f"Tables may be from apps/models that have been uninstalled. Make sure you have a backup and delete the tables manually (ex. `{specific_hint}`).",
+                    hint=(
+                        "Tables may be from apps/models that have been uninstalled. "
+                        + "Make sure you have a backup and delete the tables manually "
+                        + f"(ex. `{specific_hint}`)."
+                    ),
                     id="forge.db.E001",
                 )
             )
