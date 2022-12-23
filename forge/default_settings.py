@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     "forge",
     "forgework",
     "forgetailwind",
-    "forgeformat",
     "forgedb",
     "forgeheroku",
     # third-party apps
@@ -121,7 +120,7 @@ else:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa: E501
     },
     {
         "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",

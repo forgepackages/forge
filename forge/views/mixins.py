@@ -5,7 +5,10 @@ class HTMLTitleMixin:
     html_title_required = True
 
     def get_html_title(self):
-        """Return the class title attr by default, but can customize this by overriding"""
+        """
+        Return the class title attr by default,
+        but can customize this by overriding
+        """
         return self.html_title
 
     def get_html_title_required(self):
