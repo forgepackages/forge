@@ -150,7 +150,7 @@ def fmt(check, black, ruff):
         forge.venv_cmd(
             "ruff",
             *ruff_args,
-            check=False,  # ruff --fix will still show unfixable errors right now...
+            check=check,  # ruff --fix will still show unfixable errors right now...
         )
 
     def do_black():
