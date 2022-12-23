@@ -141,13 +141,9 @@ def django(managepy_args):
 
 
 @cli.command()
-@click.option("--heroku", is_flag=True)
-def shell(heroku):
-    """Open a Python/Django shell"""
-    if heroku:
-        subprocess.run(["heroku", "run", "python app/manage.py shell"])
-    else:
-        Forge().manage_cmd("shell")
+def shell():
+    """Local Python/Django shell"""
+    Forge().manage_cmd("shell")
 
 
 cli = click.CommandCollection(sources=[NamespaceGroup(), cli])
