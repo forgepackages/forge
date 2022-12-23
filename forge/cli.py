@@ -100,12 +100,13 @@ forge pre-commit"""
             os.chmod(hook_path, 0o755)
             print("pre-commit hook installed")
     else:
-        click.secho("Linting with ruff", bold=True)
-        forge.venv_cmd("ruff", forge.project_dir)
+        # Check with black first, so we fail on any known formatting issues first
+        click.secho("Checking formatting with black", bold=True)
+        forge.venv_cmd("black", "--check", forge.project_dir, check=True)
         click.echo()
 
-        click.secho("Checking formatting with black", bold=True)
-        forge.venv_cmd("black", "--check", forge.project_dir)
+        click.secho("Linting with ruff", bold=True)
+        forge.venv_cmd("ruff", forge.project_dir, check=True)
         click.echo()
 
         click.secho("Checking database connection", bold=True)
@@ -127,22 +128,18 @@ forge pre-commit"""
         ctx.invoke(test)
 
 
-@click.command("format")  # format is a keyword
+@cli.command("format")  # format is a keyword
 @click.option("--check", is_flag=True)
 @click.option("--black", is_flag=True, default=True)
 @click.option("--ruff", is_flag=True, default=True)
 def fmt(check, black, ruff):
-    """
-    Format Python code with black and ruff
-
-    Runs ruff first, then black to do final re-formatting of any ruff fixes.
-    """
+    """Format Python code with black and ruff"""
     forge = Forge()
 
     # Make relative for nicer output
     target = os.path.relpath(forge.project_dir)
 
-    if ruff:
+    def do_ruff():
         click.secho("Fixing with ruff", bold=True)
 
         if check:
@@ -156,10 +153,7 @@ def fmt(check, black, ruff):
             check=False,  # ruff --fix will still show unfixable errors right now...
         )
 
-    if black and ruff:
-        click.echo()
-
-    if black:
+    def do_black():
         click.secho("Formatting with black", bold=True)
 
         if check:
@@ -172,6 +166,28 @@ def fmt(check, black, ruff):
             *black_args,
             check=True,
         )
+
+    if check:
+        # If we're checking, we do black first to fail on any existing formatting issues
+        if black:
+            do_black()
+
+        if black and ruff:
+            click.echo()
+
+        if ruff:
+            do_ruff()
+
+    else:
+        # If we're fixing, we do ruff first so black can re-format any ruff fixes
+        if ruff:
+            do_ruff()
+
+        if black and ruff:
+            click.echo()
+
+        if black:
+            do_black()
 
 
 @cli.command(
