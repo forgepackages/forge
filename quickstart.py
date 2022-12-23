@@ -11,7 +11,7 @@ You can install Poetry with a one-line command found here:
 
   https://python-poetry.org/docs/#installation"
 
-When you're ready, try running this command again."""
+When you're ready, try running this command again."""  # noqa: E501
 
 
 def event(text, *args, **kwargs):
@@ -62,7 +62,7 @@ def main(project_name, template_source):
 \033[32mCheck the documentation for more details:\033[0m
 
   \033[1;32mhttps://www.forgepackages.com/docs/\033[0m
-"""
+"""  # noqa: E501
     )
 
     if ".venv/bin" not in os.environ["PATH"]:
@@ -74,7 +74,7 @@ To make the `forge` command readily available, you'll probably want to add ".ven
 To do this, add the following to your .bashrc or .zshrc file:\033[0m
 
 \033[1;33m  export PATH="./.venv/bin:$PATH"\033[0m
-"""
+"""  # noqa: E501
         )
 
 
