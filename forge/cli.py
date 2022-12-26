@@ -1,6 +1,5 @@
 import importlib
 import os
-import subprocess
 import sys
 
 import click
@@ -129,65 +128,34 @@ forge pre-commit"""
 
 
 @cli.command("format")  # format is a keyword
-@click.option("--check", is_flag=True)
-@click.option("--black", is_flag=True, default=True)
-@click.option("--ruff", is_flag=True, default=True)
-def fmt(check, black, ruff):
+@click.argument("files", nargs=-1)
+def fmt(files):
     """Format Python code with black and ruff"""
     forge = Forge()
 
-    # Make relative for nicer output
-    target = os.path.relpath(forge.project_dir)
+    if not files:
+        # Make relative for nicer output
+        files = [os.path.relpath(forge.project_dir)]
 
-    def do_ruff():
-        click.secho("Fixing with ruff", bold=True)
+    # If we're fixing, we do ruff first so black can re-format any ruff fixes
+    click.secho(f"Fixing {', '.join(files)} with ruff", bold=True)
 
-        if check:
-            ruff_args = [target]
-        else:
-            ruff_args = ["--fix", target]
+    forge.venv_cmd(
+        "ruff",
+        "--fix-only",
+        *files,
+        check=True,
+    )
 
-        forge.venv_cmd(
-            "ruff",
-            *ruff_args,
-            check=check,  # ruff --fix will still show unfixable errors right now...
-        )
+    click.echo()
 
-    def do_black():
-        click.secho("Formatting with black", bold=True)
+    click.secho(f"Formatting {', '.join(files)} with black", bold=True)
 
-        if check:
-            black_args = ["--check", target]
-        else:
-            black_args = [target]
-
-        forge.venv_cmd(
-            "black",
-            *black_args,
-            check=True,
-        )
-
-    if check:
-        # If we're checking, we do black first to fail on any existing formatting issues
-        if black:
-            do_black()
-
-        if black and ruff:
-            click.echo()
-
-        if ruff:
-            do_ruff()
-
-    else:
-        # If we're fixing, we do ruff first so black can re-format any ruff fixes
-        if ruff:
-            do_ruff()
-
-        if black and ruff:
-            click.echo()
-
-        if black:
-            do_black()
+    forge.venv_cmd(
+        "black",
+        *files,
+        check=True,
+    )
 
 
 @cli.command(
