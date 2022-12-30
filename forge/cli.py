@@ -64,15 +64,32 @@ def test(pytest_args):
         pytest_args.append("error::DeprecationWarning")
 
     result = forge.venv_cmd(
+        "coverage",
+        "run",
+        "-m",
         "pytest",
         *pytest_args,
         env={
             "PYTHONPATH": forge.project_dir,
+            "COVERAGE_FILE": os.path.join(forge.forge_tmp_dir, ".coverage"),
         },
     )
     if result.returncode:
         # Can be invoked by pre-commit, so only exit if it fails
         sys.exit(result.returncode)
+
+    html_result = forge.venv_cmd(
+        "coverage",
+        "html",
+        "--directory",
+        os.path.join(forge.forge_tmp_dir, "coverage"),
+        env={
+            "PYTHONPATH": forge.project_dir,
+            "COVERAGE_FILE": os.path.join(forge.forge_tmp_dir, ".coverage"),
+        },
+    )
+    if html_result.returncode:
+        sys.exit(html_result.returncode)
 
 
 @cli.command()
