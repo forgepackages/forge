@@ -86,7 +86,7 @@ def test(pytest_args):
         subprocess.check_call(
             'echo "## Pytest coverage" >> $GITHUB_STEP_SUMMARY', shell=True
         )
-        subprocess.check_call(
+        subprocess.run(
             "coverage report "
             + "--skip-empty "
             + "--format markdown "
