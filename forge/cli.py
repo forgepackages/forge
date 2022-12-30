@@ -1,3 +1,4 @@
+import subprocess
 import importlib
 import os
 import sys
@@ -57,6 +58,8 @@ def test(pytest_args):
     forge = Forge()
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings")
 
+    coverage_file = os.path.join(forge.forge_tmp_dir, ".coverage")
+
     # Turn deprecation warnings into errors
     if "-W" not in pytest_args:
         pytest_args = list(pytest_args)  # Make sure it's a list instead of tuple
@@ -71,21 +74,36 @@ def test(pytest_args):
         *pytest_args,
         env={
             "PYTHONPATH": forge.project_dir,
-            "COVERAGE_FILE": os.path.join(forge.forge_tmp_dir, ".coverage"),
+            "COVERAGE_FILE": coverage_file,
         },
     )
     if result.returncode:
         # Can be invoked by pre-commit, so only exit if it fails
         sys.exit(result.returncode)
 
+    if "GITHUB_STEP_SUMMARY" in os.environ:
+        click.secho("Adding coverage report to GitHub Action summary", bold=True)
+        subprocess.check_call(
+            'echo "## Pytest coverage" >> $GITHUB_STEP_SUMMARY', shell=True
+        )
+        subprocess.check_call(
+            "coverage report "
+            + "--skip-empty "
+            + "--format markdown "
+            + "--data-file {coverage_file} "
+            + ">> $GITHUB_STEP_SUMMARY",
+            shell=True,
+        )
+
     html_result = forge.venv_cmd(
         "coverage",
         "html",
+        "--skip-empty",
         "--directory",
         os.path.join(forge.forge_tmp_dir, "coverage"),
         env={
             "PYTHONPATH": forge.project_dir,
-            "COVERAGE_FILE": os.path.join(forge.forge_tmp_dir, ".coverage"),
+            "COVERAGE_FILE": coverage_file,
         },
     )
     if html_result.returncode:
