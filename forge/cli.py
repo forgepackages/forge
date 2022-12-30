@@ -86,11 +86,11 @@ def test(pytest_args):
         subprocess.check_call(
             'echo "## Pytest coverage" >> $GITHUB_STEP_SUMMARY', shell=True
         )
-        subprocess.run(
+        subprocess.check_call(
             "coverage report "
             + "--skip-empty "
             + "--format markdown "
-            + "--data-file {coverage_file} "
+            + f"--data-file {coverage_file} "
             + ">> $GITHUB_STEP_SUMMARY",
             shell=True,
         )
