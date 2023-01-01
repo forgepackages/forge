@@ -398,14 +398,14 @@ requests = ">=2.0.0"
 
 [[package]]
 name = "forge-work"
-version = "0.5.0"
+version = "0.6.0"
 description = "Work library for Forge"
 category = "main"
 optional = false
 python-versions = ">=3.8,<4.0"
 files = [
-    {file = "forge-work-0.5.0.tar.gz", hash = "sha256:cb780af5adae842025852ee935ac9e279c8c95ca2fc55059dcdc7d4b18f722b3"},
-    {file = "forge_work-0.5.0-py3-none-any.whl", hash = "sha256:d467544f9ed1e5136a361bb6cf6a60a33d933baa5f26af6a217556250228a53e"},
+    {file = "forge_work-0.6.0-py3-none-any.whl", hash = "sha256:077d9740ae159789b40bed45706a20b4b05c5049c1a3d68caaa3d3f67304e8dc"},
+    {file = "forge_work-0.6.0.tar.gz", hash = "sha256:32eca1f93b7e321910483de0901ead00f572f4b01efad829985ecf901565dadc"},
 ]
 
 [package.dependencies]
@@ -748,19 +748,19 @@ files = [
 
 [[package]]
 name = "platformdirs"
-version = "2.6.0"
+version = "2.6.2"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "platformdirs-2.6.0-py3-none-any.whl", hash = "sha256:1a89a12377800c81983db6be069ec068eee989748799b946cce2a6e80dcc54ca"},
-    {file = "platformdirs-2.6.0.tar.gz", hash = "sha256:b46ffafa316e6b83b47489d240ce17173f123a9b9c83282141c3daf26ad9ac2e"},
+    {file = "platformdirs-2.6.2-py3-none-any.whl", hash = "sha256:83c8f6d04389165de7c9b6f0c682439697887bca0aa2f1c87ef1826be3584490"},
+    {file = "platformdirs-2.6.2.tar.gz", hash = "sha256:e1fea1fe471b9ff8332e229df3cb7de4f53eeea4998d3b6bfff542115e998bd2"},
 ]
 
 [package.extras]
-docs = ["furo (>=2022.9.29)", "proselint (>=0.13)", "sphinx (>=5.3)", "sphinx-autodoc-typehints (>=1.19.4)"]
-test = ["appdirs (==1.4.4)", "pytest (>=7.2)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
+docs = ["furo (>=2022.12.7)", "proselint (>=0.13)", "sphinx (>=5.3)", "sphinx-autodoc-typehints (>=1.19.5)"]
+test = ["appdirs (==1.4.4)", "covdefaults (>=2.2.2)", "pytest (>=7.2)", "pytest-cov (>=4)", "pytest-mock (>=3.10)"]
 
 [[package]]
 name = "pluggy"
