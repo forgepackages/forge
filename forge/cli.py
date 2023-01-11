@@ -158,6 +158,10 @@ forge pre-commit"""
             forge.manage_cmd("migrate", "--check", check=True)
 
         click.echo()
+        click.secho("Checking for Django models missing migrations", bold=True)
+        forge.manage_cmd("makemigrations", "--dry-run", "--check", check=True)
+            
+        click.echo()
         click.secho("Running tests", bold=True)
         ctx.invoke(test)
 
