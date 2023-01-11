@@ -209,7 +209,33 @@ def django(managepy_args):
     if result.returncode:
         sys.exit(result.returncode)
 
+        
+@cli.command(
+    context_settings=dict(
+        ignore_unknown_options=True,
+    )
+)
+@click.argument("makemigrations_args", nargs=-1, type=click.UNPROCESSED)
+def makemigrations(makemigrations_args):
+    """Run Django makemigrations"""
+    result = Forge().manage_cmd("makemigrations", *makemigrations_args)
+    if result.returncode:
+        sys.exit(result.returncode)
 
+
+@cli.command(
+    context_settings=dict(
+        ignore_unknown_options=True,
+    )
+)
+@click.argument("migrate_args", nargs=-1, type=click.UNPROCESSED)
+def migrate(migrate_args):
+    """Run Django migrations"""
+    result = Forge().manage_cmd("migrate", *migrate_args)
+    if result.returncode:
+        sys.exit(result.returncode)
+        
+        
 @cli.command()
 def shell():
     """Local Python/Django shell"""
