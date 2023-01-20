@@ -1,0 +1,81 @@
+#!/bin/sh -e
+log() {
+    echo "$(tput bold)--> $*$(tput sgr0)"
+}
+
+TARGET="$1"
+
+if [ -z "$TARGET" ]; then
+    echo "Usage: $0 <forge-package-name-or-path> --set-installed-apps"
+    exit 1
+fi
+
+log "Target: $TARGET"
+
+shift
+SET_INSTALLED_APPS=0
+if [ "$1" = "--set-installed-apps" ]; then
+    SET_INSTALLED_APPS=1
+fi
+
+if [ -d "$TARGET" ]; then
+    TARGET=$(realpath "$TARGET")
+    FORGE_PKG_NAME=$(basename "$TARGET")
+    log "Testing local $FORGE_PKG_NAME"
+else
+    FORGE_PKG_NAME="$TARGET"
+    log "Testing $FORGE_PKG_NAME"
+fi
+
+cd /tmp
+
+tmpdir=$(mktemp -d)
+
+log "Created new temporary directory $tmpdir"
+
+cd $tmpdir
+
+# git init
+python3 -m venv .venv
+. .venv/bin/activate
+
+log "Python version: $(python --version)"
+
+pip install --upgrade pip django
+
+log "Django version: $(django-admin --version)"
+
+django-admin startproject testproject
+
+if [ -d "$TARGET" ]; then
+    log "Installing $TARGET in editable mode"
+    pip install -e "$TARGET"
+else
+    log "Installing $FORGE_PKG_NAME"
+    pip install "$FORGE_PKG_NAME"
+fi
+
+log "Freezing requirements for reference"
+pip freeze > requirements.txt
+
+if [ $SET_INSTALLED_APPS -eq 1 ]; then
+    log "Adding $FORGE_PKG_NAME to INSTALLED_APPS"
+    sd 'INSTALLED_APPS = \[' "INSTALLED_APPS = [\"$FORGE_PKG_NAME\"," testproject/testproject/settings.py
+fi
+
+log "Running $FORGE_PKG_NAME --help"
+$FORGE_PKG_NAME --help
+
+log "Django migrations"
+python testproject/manage.py migrate
+
+log "Opening VSCode"
+code .
+if [ -d "$TARGET" ]; then
+    code --add "$TARGET"
+fi
+
+log "Project located in $tmpdir"
+
+log "Django runserver"
+python testproject/manage.py runserver
